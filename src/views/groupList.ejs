@@ -1,0 +1,40 @@
+<% function timeAgo(dateString) {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diff = Math.floor((now - date) / 1000); // Difference in seconds
+
+    if (diff < 60) return "just now";
+
+    const minutes = Math.floor(diff / 60);
+
+    if (minutes < 60) return `${minutes} min ago`;
+
+    const hours = Math.floor(minutes / 60);
+
+    if (hours < 24) return `${hours} hours ago`;
+
+    const days = Math.floor(hours / 24);
+
+    if (days < 30) return `${days} days ago`;
+    
+    const months = Math.floor(days / 30);
+
+    if (months < 12) return `${months} months ago`;
+
+    const years = Math.floor(months / 12);
+
+    return `${years} years ago`;
+} %>
+
+<% (body.data).forEach((element,i) => { %>
+    <% ++i %>
+    <tr data-group-name = "<%= element.groupName %>">
+        <td><%= element.groupName %></td>
+        <td><%= timeAgo(element.createdAt) %></td>
+        <td><%= timeAgo(element.updatedAt) %></td>
+        <td>
+            <button type="button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal11"  data-group-id="<%= element.id %>">Edit</button>
+            <button type="button" class="delete-button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-group-id="<%= element.id %>">Delete</button>
+        </td>
+    </tr>
+<% }) %>

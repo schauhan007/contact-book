@@ -1,0 +1,13 @@
+<% (body.data).forEach(element => { %>
+    <tr data-name="<%= element.name %>" data-email="<%= element.email %>" data-mobilenumber="<%= element.MobileNumber %>" data-group-id="<%= element.groupId._id %>">
+        <td><img src="../../assets/images/<%= element.image%>"  width='100' height='100' style="border-radius: 50%"></td>
+        <td><%= element.name %></td>
+        <td><%= element.email %></td>
+        <td><%= element.MobileNumber %></td>
+        <td><%= element.groupId.groupName%></td>
+        <td>
+            <button type="button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-contact-id="<%= element.id %>">Edit</button>
+            <button type="button" class="delete-button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-contact-id="<%= element.id %>">Delete</button>
+        </td>
+    </tr>
+<% })  %>

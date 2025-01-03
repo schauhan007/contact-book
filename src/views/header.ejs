@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashobard</title>
+    <style>
+
+        /* General Header Styling */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: #007bff;
+        color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Div Styling */
+    #groups-div, #contact-div, #title-div, #logout-div {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Title Styling */
+    #title-div h2 {
+        margin: 0;
+        font-size: 24px;
+        color: #fff;
+    }
+
+    /* Button Styling */
+    #groups-button, #contacts-button, #logout-button {
+        background-color: #fff;
+        color: #007bff;
+        border: none;
+        font-size: 14px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+    }
+
+    #groups-button:hover, #contacts-button:hover, #logout-button:hover {
+        background-color: #0056b3;
+        color: #fff;
+    }
+
+    #groups-button:active, #contacts-button:active, #logout-button:active {
+        background-color: #004494;
+        transform: scale(0.98);
+    }
+
+    /* Link Styling */
+    #groups-div a, #contact-div a {
+        text-decoration: none;
+    }
+
+    /* Flex Alignment */
+    #groups-div, #contact-div {
+        margin-right: 15px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        header {
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+
+        #title-div h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #groups-div, #contact-div, #logout-div {
+            margin-bottom: 10px;
+        }
+
+        #groups-button, #contacts-button, #logout-button {
+            font-size: 12px;
+            padding: 8px 12px;
+        }
+    }
+        /* Button styling */
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    
+        .btn-primary:active {
+            background-color: #004494;
+        }
+    
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    
+        .btn-secondary:active {
+            background-color: #545b62;
+        }
+    
+         /* General Footer Styling */
+    footer {
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        padding: 15px 20px;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+        box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Link Styling */
+    footer a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+        color: #d1ecf1; /* Lighter shade for hover */
+    }
+
+    footer a:active {
+        color: #b8daff;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        footer {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+
+        footer a {
+            font-size: 14px;
+        }
+    }
+
+        /* Table styling */
+        #contacts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+            text-align: left;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        #contacts-table thead th {
+            background-color: #f8f9fa;
+            color: #333;
+            font-weight: bold;
+            padding: 12px;
+            border-bottom: 2px solid #dee2e6;
+        }
+    
+        #contacts-table tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+    
+        #contacts-table tbody tr:hover {
+            background-color: #f1f3f5;
+        }
+    
+        #contacts-table tbody td img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    
+        /* Modal styling */
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+    
+        .modal-header {
+            background-color: #007bff;
+            color: #fff;
+            border-bottom: 1px solid #dee2e6;
+            padding: 15px;
+        }
+    
+        .modal-header .btn-close {
+            background-color: #fff;
+            border-radius: 50%;
+        }
+    
+        .modal-title {
+            font-size: 18px;
+        }
+    
+        .modal-body {
+            padding: 20px;
+        }
+    
+        /* Form styling */
+        form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+    
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="file"],
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    
+        form button {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+    
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #contacts-table {
+                font-size: 14px;
+            }
+    
+            form input[type="text"],
+            form input[type="email"],
+            form input[type="file"],
+            form input[type="number"] {
+                font-size: 12px;
+            }
+    
+            .btn-primary, .btn-secondary {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+        }
+
+        button {
+        font-size: 14px;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+        border: none;
+    }
+
+    /* Edit Button Styling */
+    .edit-button {
+        background-color: #ffc107; /* Warning color */
+        color: #fff;
+    }
+
+    .edit-button:hover {
+        background-color: #e0a800; /* Darker shade for hover */
+    }
+
+    .edit-button:active {
+        background-color: #d39e00;
+        transform: scale(0.98);
+    }
+
+    /* Delete Button Styling */
+    .delete-button {
+        background-color: #dc3545; /* Danger color */
+        color: #fff;
+        margin-left: 10px; /* Add spacing between buttons */
+    }
+
+    .delete-button:hover {
+        background-color: #c82333; /* Darker shade for hover */
+    }
+
+    .delete-button:active {
+        background-color: #bd2130;
+        transform: scale(0.98);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        button {
+            font-size: 12px;
+            padding: 6px 12px;
+        }
+
+        #delete-button {
+            margin-left: 5px;
+        }
+    }
+
+    table {
+        background-color: pink;
+    }
+
+    thead {
+        background-color: pink; /* Primary color for header */
+        color: pink; /* White text for contrast */
+    }
+
+    thead th {
+        padding: 12px;
+        text-align: left;
+        font-size: 16px;
+        font-weight: bold;
+        border-bottom: 2px solid #0056b3; /* Slightly darker border for separation */
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        thead th {
+            font-size: 14px;
+            padding: 10px;
+        }
+    }
+        
+
+    </style>    
+</head>
+<body>
+    <header>
+        <div id="groups-div">
+            <a href="/user/groups" >
+                <button id="groups-button">Groups</button>
+            </a>
+        </div>
+        <div id="contact-div">
+            <a href="/user/contacts" >
+                <button id="contacts-button">Contacts</button>
+            </a>
+        </div>
+        <div id="title-div">
+            <h2><%= header.title %></h2>
+        </div>
+        <div id="logout-div">
+            <button type="button" id="logout-button">Log Out</button>
+        </div>
+    </header>

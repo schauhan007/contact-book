@@ -1,0 +1,44 @@
+<%- include('header')  %>
+
+<style>
+    
+    #counts-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .count-box {
+        background-color: #f0f8ff;
+        border: 2px solid #007bff;
+        border-radius: 5px;
+        padding: 15px 25px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #007bff;
+    }
+</style>
+
+<div id="counts-container">
+    <div id="groups-count" class="count-box">
+        <a href="/user/groups" >
+            <p>Groups: <span id="groups-total"><%= header.groupCount %></span></p>
+        </a>
+    </div>
+    <div id="contacts-count" class="count-box">
+        <a href="/user/contacts" >
+            <p>Contacts: <span id="contacts-total"><%= header.contactCount %></span></p>
+        </a>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../../assets/js/logout.js"></script>
+    <script src="../../assets/js/common.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</body>
+</html>
