@@ -170,25 +170,30 @@ export const forgotPassword = async (req, res) => {
         const encryptedResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
         const resetPasswordTokenExpire = Date.now() + 10 * 60 * 1000;
 
-        await Password.create({
-            userId: findUser._id,
-            email: findUser.email,
-            resetPasswordToken: encryptedResetToken,
-            resetPasswordTokenExpire: resetPasswordTokenExpire,
-        });
-
+        
         const resetUrl = `${req.protocol}://${req.get('host')}/resetPassword/${encryptedResetToken}`;
-
+        
         const options = {
             email: findUser.email,
             subject: "Reset Password",
             message: `A password reset event has been triggered for your account. Please click on the link below to reset your password. \n\n <a href="${resetUrl}">${resetUrl}</a> \n\n This link will expire in 10 minutes.`,
         }
-
-        // send email
-        await sendEmail(options);
         
-        return res.json(success_res("Password reset link sent to a user successfully", {email, encryptedResetToken, resetUrl}));
+        // send email
+        const verifyEmailSendOrNot = await sendEmail(options);
+        
+        if(verifyEmailSendOrNot === "success"){
+            
+            await Password.create({
+                userId: findUser._id,
+                email: findUser.email,
+                resetPasswordToken: encryptedResetToken,
+                resetPasswordTokenExpire: resetPasswordTokenExpire,
+            });
+            
+            return res.json(success_res("Password reset link sent to a user successfully", {email, encryptedResetToken, resetUrl}));
+        }
+
 
     } catch (error) {
         console.log(error);
