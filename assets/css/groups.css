@@ -1,0 +1,62 @@
+/* Style for Add Group button container */
+#add-group-button {
+    text-align: right; /* Align the button to the right */
+    margin-bottom: 20px; /* Add some space below the button */
+}
+
+/* Style for the Add Group button */
+#add-group-button .btn {
+    font-size: 16px; /* Increase button font size */
+    padding: 10px 20px; /* Add padding for a larger click area */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Style for the pagination controls container */
+#pagination-controls {
+    display: flex; /* Arrange child elements in a row */
+    justify-content: center; /* Center the pagination controls */
+    align-items: center; /* Vertically align items */
+    margin-top: 20px; /* Add space above the pagination controls */
+    gap: 10px; /* Add space between pagination elements */
+}
+
+/* Style for the pagination buttons */
+#pagination-controls .pagination-button {
+    font-size: 14px; /* Adjust font size for buttons */
+    padding: 5px 15px; /* Add padding for buttons */
+    border: 1px solid #007bff; /* Add a border matching the primary color */
+    background-color: #fff; /* White background */
+    color: #007bff; /* Primary color for text */
+    border-radius: 4px; /* Slightly rounded corners */
+    cursor: pointer; /* Pointer cursor for hover */
+    transition: all 0.2s ease-in-out; /* Smooth transition for hover effects */
+}
+
+/* Disabled pagination buttons */
+#pagination-controls .pagination-button[disabled] {
+    border-color: #ddd; /* Light grey border for disabled state */
+    color: #aaa; /* Light grey text */
+    cursor: not-allowed; /* Show not-allowed cursor */
+}
+
+/* Hover effect for pagination buttons */
+#pagination-controls .pagination-button:not([disabled]):hover {
+    background-color: #007bff; /* Primary color background */
+    color: #fff; /* White text */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #007bff; /* Optional, for styling */
+    text-align: center; /* Center text */
+    padding: 10px;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Optional, for a subtle shadow effect */
+}

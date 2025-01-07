@@ -31,6 +31,10 @@ export const getDashboard = async (req,res) => {
 export const getGroups = async (req, res) => {
     try {
 
+        const user = req.session;
+        console.log("session----------->", user);
+        
+
         res.render('groups',{ 
             header: {
                 title: `Welcome, ${req.name}`,
@@ -158,9 +162,23 @@ export const postContactList = async (req, res) => {
     try {
         
         const user = req.session.user;
+        const body = req.body;        
+
+        const page = parseInt(req.body.page) || 1;
+        const limit = parseInt(req.body.limit) || 10;
+
+        const skip = (page - 1) * limit;
+
+        const total = await Contact.countDocuments({ userId: user._id });
         
-        const data = await Contact.find({ userId: user._id }).populate('groupId');
+        const data = await Contact.find({ userId: user._id }).populate('groupId').sort({ createdAt: -1 }).skip(skip).limit(limit);
         
+        const pagination = {
+            totalData: total,
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+            limit: limit,
+        };
 
         // const data = await Contact.aggregate([
         //     {
@@ -179,7 +197,7 @@ export const postContactList = async (req, res) => {
             }
         })
         
-        return res.json(success_res("", fileToBeRender));
+        return res.json(success_res("", {fileToBeRender, pagination}));
 
     } catch (error) {
         console.log(error);
@@ -194,16 +212,31 @@ export const postGroupList = async (req, res) => {
     try {
 
         const user = req.session.user;
+        const body = req.body;
 
-        const data = await Group.find({userId: user._id});
+        const page = parseInt(req.body.page) || 1;
+        const limit = parseInt(req.body.limit) || 10;
+
+        const skip = (page - 1) * limit;
+
+        const total = await Group.countDocuments({ userId: user._id });
+        const data = await Group.find({ userId: user._id }).sort({ createdAt: -1 }).skip(skip).limit(limit);
+
+        const pagination = {
+            totalData: total,
+            currentPage: page,
+            totalPages: Math.ceil(total / limit),
+            limit: limit,
+        };
         
         const fileToBeRender = await ejs.renderFile("/Node/Practice/src/views/groupList.ejs", {
             body : {
                 data: data,
+                pagination: pagination,
             }
         })
         
-        return res.json(success_res("data get successfully", fileToBeRender))
+        return res.json(success_res("data get successfully", {fileToBeRender, pagination}))
 
     } catch (error) {
         
@@ -287,16 +320,21 @@ export const deleteContact = async (req, res) => {
 
     try {
         
+        const user = req.session.user;
+        const contactId = req.body.contactId;
 
-        const deleteContact = await Contact.findOne({_id: req.body.contactId});
+
+        const deleteContact = await Contact.findOne({_id: contactId});
 
         if(!deleteContact){
             return res.json(error_res("Contact not found!"));
         }
 
-        await Contact.findOneAndDelete({ _id: req.body.contactId});
+        await Contact.findOneAndDelete({ _id: contactId});
 
-        return res.json(success_res("Contact Deleted Successfully"));
+        const total = await Contact.countDocuments({ userId: user._id });
+
+        return res.json(success_res("Contact Deleted Successfully", total));
 
     } catch (error) {
         console.log(error);
@@ -310,23 +348,26 @@ export const deleteGroup = async (req, res) => {
     
     try {
         
+        const user = req.session.user;
         const groupId = req.body.groupId;
 
         const validateGroup = await Group.findOne({_id: groupId});
-
+        
         if(!validateGroup){
             return res.json(error_res("Group not found!"));
         }
-
+        
         const validateGroupIsSelectedOrNot = await Contact.findOne({groupId: groupId});
-
+        
         if(validateGroupIsSelectedOrNot){
             return res.json(error_res("You can't delete a group, group is already selected by contact"))
         }
-
+        
         await Group.findOneAndDelete({_id : groupId});
 
-        return res.json(success_res("Group deleted successfully"));
+        const total = await Group.countDocuments({ userId: user._id });
+
+        return res.json(success_res("Group deleted successfully", total));
         
 
     } catch (error) {

@@ -15,7 +15,14 @@ $(document).on('click', '#delete-contact', function(){
                 
                 $('#exampleModal2').modal("hide");
 
-                $('#contacts-table').find(`tbody [data-contact-id="${contactId}"]`).closest('tr').remove();
+                const totalRows = response.data;
+
+                const totalPages = Math.ceil(totalRows / limit);
+
+                if(currentPage > totalPages){
+                    currentPage = totalPages 
+                }
+                contactList(currentPage);
 
             }
 

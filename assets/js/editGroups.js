@@ -19,19 +19,21 @@ $(document).on('click', '#edit-group', function(){
                 $('#exampleModal11').modal("hide");
                 $('#edit-group-form')[0].reset();
 
-                let toChangeTr = $(`.edit-button[data-contact-id="${response.data._id}"]`).closest('tr');
+                // let toChangeTr = $(`.edit-button[data-contact-id="${response.data._id}"]`).closest('tr');
 
-                toChangeTr.html(`
-                    <td>${response.data.groupName}</td>
-                    <td>${timeAgo(response.data.createdAt)}</td>
-                    <td>${timeAgo(response.data.updatedAt)}</td>
-                    <td>
-                        <button type="button" id="edit-button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal11" data-group-id="${response.data._id}">Edit</button>
-                        <button type="button" id="delete-button" class="delete-button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-group-id="${response.data._id}">Delete</button>
-                    </td>
-                `);
+                // toChangeTr.html(`
+                //     <td>${response.data.groupName}</td>
+                //     <td>${timeAgo(response.data.createdAt)}</td>
+                //     <td>${timeAgo(response.data.updatedAt)}</td>
+                //     <td>
+                //         <button type="button" id="edit-button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal11" data-group-id="${response.data._id}">Edit</button>
+                //         <button type="button" id="delete-button" class="delete-button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-group-id="${response.data._id}">Delete</button>
+                //     </td>
+                // `);
 
-                toChangeTr.data('groupName', response.data.groupName);
+                // toChangeTr.data('groupName', response.data.groupName);
+
+                groupList(currentPage);
 
             }
 

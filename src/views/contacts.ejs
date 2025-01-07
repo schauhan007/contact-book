@@ -1,9 +1,16 @@
 <%- include('header') %>
 
+<link rel="stylesheet" href="../../assets/css/contacts.css">
+
 <!-- Button trigger modal -->
 <button type="button" id="add-contact-popup" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Add Contact
   </button>
+
+  <div id="pagination-controls">
+    
+  </div>
+
   <table id="contacts-table">
     <thead>
         <tr>
@@ -19,6 +26,7 @@
       <!-- append contactsTable.ejs file which is made in server and get in response of postContactList api and then append this file using jquery by $("#table-body") -->
     </tbody>
   </table>
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
     <div class="modal-dialog">
