@@ -26,15 +26,20 @@
     return `${years} years ago`;
 } %>
 
-<% (body.data).forEach((element,i) => { %>
-    <% ++i %>
-    <tr data-group-name = "<%= element.groupName %>">
-        <td><%= element.groupName %></td>
-        <td><%= timeAgo(element.createdAt) %></td>
-        <td><%= timeAgo(element.updatedAt) %></td>
-        <td>
-            <button type="button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal11"  data-group-id="<%= element.id %>">Edit</button>
-            <button type="button" class="delete-button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-group-id="<%= element.id %>">Delete</button>
-        </td>
+<% if((body.data).length === 0){ %>
+    <tr>
+        <td colspan="7" style="text-align: center;">No records found</td>
     </tr>
-<% }) %>    
+<% } else{ %>
+    <% (body.data).forEach((element,i) => { %>
+        <% ++i %>
+        <tr data-group-name = "<%= element.groupName %>">
+            <td><%= element.groupName %></td>
+            <td><%= timeAgo(element.createdAt) %></td>
+            <td>
+                <button type="button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal11"  data-group-id="<%= element.id %>">Edit</button>
+                <button type="button" class="delete-button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-group-id="<%= element.id %>">Delete</button>
+            </td>
+        </tr>
+    <% }) %>
+<% } %>

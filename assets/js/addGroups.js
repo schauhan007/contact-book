@@ -2,6 +2,10 @@ let currentPage = 1;
 let limit = 3;
 let totalPages;
 let totalRows;
+let filterData = {
+    filterGroupName: "",
+    filterDate: "",
+}
 
 $(document).on('click', '#add-group', function () {
 
@@ -60,12 +64,21 @@ $(document).on('click', '#add-group', function () {
 
 
 
-function groupList(page) {
+function groupList(page = 1) {
+
+    const filterGroupName = $('#filter-groupName').val();
+    const filterDate = $('#filter-create-date').val();
+
+    filterData = {
+        filterGroupName: filterGroupName,
+        filterDate: filterDate,
+    }
+
 
     $.ajax({
         url: '/user/group/list',
         type: 'POST',
-        data: { page: page, limit: limit },
+        data: { page: page, limit: limit , filterData },
         success: function (response) {
 
             console.log("Response------------>", response);
@@ -74,18 +87,14 @@ function groupList(page) {
 
             // // Update pagination controls
             const pagination = response.data.pagination;
-            
-            // if (pagination.currentPage > pagination.totalPages) {
-                //     pagination.currentPage = pagination.totalPages;  // Set to the last page
-                // }
                 
                 $("#pagination-controls").html(`
                 <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
                 <span>
-                    Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
+                   <---- Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
                 </span>
                 <span>
-                    Rows per page: 
+                    ----> Rows per page: 
                     <select id="rows-per-page" style="margin-left: 5px;">
                         <option selected>Open this select menu</option>
                         ${[1, 2, 3, 4, 5, 6].map(limit => `
@@ -156,4 +165,19 @@ $(document).on('change', '#rows-per-page', function () {
     }
     groupList(currentPage);
 
+});
+
+
+
+$(document).on('input', '#filter-groupName', function(){
+    const contact = $(this).val().trim();
+
+    groupList(currentPage);
+});
+
+
+$(document).on('input', '#filter-create-date', function(){
+    const contact = $(this).val()
+
+    groupList(currentPage);
 });

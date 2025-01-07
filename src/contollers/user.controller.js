@@ -32,7 +32,7 @@ export const getGroups = async (req, res) => {
     try {
 
         const user = req.session;
-        console.log("session----------->", user);
+        // console.log("session----------->", user);
         
 
         res.render('groups',{ 
@@ -162,21 +162,49 @@ export const postContactList = async (req, res) => {
     try {
         
         const user = req.session.user;
-        const body = req.body;        
+        const body = req.body;
+        console.log("req.body------------------->", req.body);
 
+        const filterData = req.body.filterData;
+        
+        const query = { userId: user._id }
+
+        if(filterData.filterName){
+            query.name = filterData.filterName;
+        }
+        if(filterData.filterEmail){
+            query.email = filterData.filterEmail;
+        }
+        if(filterData.filterMobileNumber){
+            query.MobileNumber = Number(filterData.filterMobileNumber);
+        }
+        if(filterData.filterDate){
+            const startDate = new Date(`${filterData.filterDate}T00:00:00Z`);
+            const endDate = new Date(`${filterData.filterDate}T23:59:59Z`)
+            query.createdAt = {
+                $gte: startDate,
+                $lt: endDate,
+            }
+        }
+
+        console.log("Query----------------->",query);
+        
+        
         const page = parseInt(req.body.page) || 1;
         const limit = parseInt(req.body.limit) || 10;
 
         const skip = (page - 1) * limit;
-
-        const total = await Contact.countDocuments({ userId: user._id });
         
-        const data = await Contact.find({ userId: user._id }).populate('groupId').sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const total = await Contact.countDocuments(query);
+        
+        const data = await Contact.find(query).populate('groupId').sort({ createdAt: -1 }).skip(skip).limit(limit);
+       console.log("Data--------->", data);
+       
         
         const pagination = {
             totalData: total,
             currentPage: page,
-            totalPages: Math.ceil(total / limit),
+            totalPages: Math.ceil(total / limit) || 1,
             limit: limit,
         };
 
@@ -190,6 +218,7 @@ export const postContactList = async (req, res) => {
         //         }
         //     }
         // ]);      
+
 
         const fileToBeRender = await ejs.renderFile("/Node/Practice/src/views/contactsTable.ejs", {
             body: {
@@ -214,18 +243,39 @@ export const postGroupList = async (req, res) => {
         const user = req.session.user;
         const body = req.body;
 
-        const page = parseInt(req.body.page) || 1;
+        const filterData = req.body.filterData;
+        console.log("req.body--------------->", req.body);
+
+        const query = { userId: user._id }
+        
+        if(filterData.filterGroupName){
+            query.groupName = filterData.filterGroupName;
+        }
+        if(filterData.filterDate){
+            const startDate = new Date(`${filterData.filterDate}T00:00:00Z`);
+            const endDate = new Date(`${filterData.filterDate}T23:59:59Z`)
+            query.createdAt = {
+                $gte: startDate,
+                $lt: endDate,
+            }
+        }
+
+        let page = parseInt(req.body.page) || 1;
         const limit = parseInt(req.body.limit) || 10;
 
         const skip = (page - 1) * limit;
 
-        const total = await Group.countDocuments({ userId: user._id });
-        const data = await Group.find({ userId: user._id }).sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const total = await Group.countDocuments(query);
+        const data = await Group.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit);
+        const totalPages = Math.ceil(total / limit) || 1;
+        if(page > totalPages){
+            page = 1
+        }
 
         const pagination = {
             totalData: total,
             currentPage: page,
-            totalPages: Math.ceil(total / limit),
+            totalPages: totalPages,
             limit: limit,
         };
         

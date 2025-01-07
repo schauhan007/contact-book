@@ -1,62 +1,169 @@
-/* Style for Add Group button container */
-#add-group-button {
-    text-align: right; /* Align the button to the right */
-    margin-bottom: 20px; /* Add some space below the button */
-}
-
-/* Style for the Add Group button */
-#add-group-button .btn {
-    font-size: 16px; /* Increase button font size */
-    padding: 10px 20px; /* Add padding for a larger click area */
-    border-radius: 5px; /* Rounded corners */
-}
-
-/* Style for the pagination controls container */
-#pagination-controls {
-    display: flex; /* Arrange child elements in a row */
-    justify-content: center; /* Center the pagination controls */
-    align-items: center; /* Vertically align items */
-    margin-top: 20px; /* Add space above the pagination controls */
-    gap: 10px; /* Add space between pagination elements */
-}
-
-/* Style for the pagination buttons */
-#pagination-controls .pagination-button {
-    font-size: 14px; /* Adjust font size for buttons */
-    padding: 5px 15px; /* Add padding for buttons */
-    border: 1px solid #007bff; /* Add a border matching the primary color */
-    background-color: #fff; /* White background */
-    color: #007bff; /* Primary color for text */
-    border-radius: 4px; /* Slightly rounded corners */
-    cursor: pointer; /* Pointer cursor for hover */
-    transition: all 0.2s ease-in-out; /* Smooth transition for hover effects */
-}
-
-/* Disabled pagination buttons */
-#pagination-controls .pagination-button[disabled] {
-    border-color: #ddd; /* Light grey border for disabled state */
-    color: #aaa; /* Light grey text */
-    cursor: not-allowed; /* Show not-allowed cursor */
-}
-
-/* Hover effect for pagination buttons */
-#pagination-controls .pagination-button:not([disabled]):hover {
-    background-color: #007bff; /* Primary color background */
-    color: #fff; /* White text */
-}
-
+/* General Body and HTML Styles */
 html, body {
-    height: 100%;
+    height: 100%;  /* Ensures the body and HTML take up the full height of the viewport */
     margin: 0;
+    padding: 0;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+/* Body Layout: Using flexbox to handle content layout */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Ensures the body takes the full height */
+}
+
+/* Main content section: takes available space above the footer */
+main {
+    flex: 1;
+}
+
+/* Button Styles */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Add Group Button */
+button.btn {
+    margin-top: 20px;
+}
+
+#pagination-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Filter Controls */
+#filter-controls {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+#filter-controls input {
+    padding: 8px;
+    margin-right: 10px;
+    width: 200px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+/* Contacts Table Styles */
+#contacts-table {
     width: 100%;
-    background-color: #007bff; /* Optional, for styling */
-    text-align: center; /* Center text */
-    padding: 10px;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Optional, for a subtle shadow effect */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#contacts-table th, #contacts-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+#contacts-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+#contacts-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#contacts-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    margin-top: auto; /* Pushes footer to the bottom of the page */
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* General Pagination Container Styles */
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+/* Pagination Buttons Styles */
+.pagination-button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination-button:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+/* Page Input Styles */
+#current-page-input {
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+    width: 50px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+
+#current-page-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+/* Rows per page dropdown styles */
+#rows-per-page {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+#rows-per-page option {
+    padding: 5px;
+}
+
+/* Additional Styling for Text and Label */
+span {
+    font-size: 16px;
+}
+
+span input[type="number"] {
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    padding: 5px;
+    margin-left: 10px;
 }

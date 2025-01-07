@@ -1,58 +1,89 @@
+/* General Body and HTML Styles */
 html, body {
-    height: 100%;
+    height: 100%;  /* Ensures the body and HTML take up the full height of the viewport */
     margin: 0;
+    padding: 0;
 }
 
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #007bff; /* Optional, for styling */
-    text-align: center; /* Center text */
-    padding: 10px;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Optional, for a subtle shadow effect */
+/* Body Layout: Using flexbox to handle content layout */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Ensures the body takes the full height */
+}
+
+/* Main content section: takes available space above the footer */
+main {
+    flex: 1;
+}
+
+/* Button, filter and table styles */
+#add-contact-popup {
+    margin-top: 20px;
 }
 
 #pagination-controls {
-    display: flex;                  /* Use flexbox for easy alignment */
-    justify-content: center;        /* Center the pagination controls horizontally */
-    align-items: center;            /* Align items vertically in the center */
-    margin-top: 20px;                /* Add space above the controls */
-    margin-bottom: 20px;             /* Add space below the controls */
-    font-size: 16px;                 /* Set a default font size for the pagination text */
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-#pagination-controls .pagination-button {
-    background-color: #007bff;      /* Set a background color for buttons */
-    color: white;                   /* Set text color to white */
-    border: none;                   /* Remove borders */
-    padding: 8px 15px;               /* Add padding inside the buttons */
-    margin: 0 5px;                  /* Add spacing between buttons */
-    cursor: pointer;                /* Make the cursor a pointer on hover */
-    border-radius: 4px;              /* Round the corners of the buttons */
-    transition: background-color 0.3s ease;  /* Smooth background color transition */
+#filter-controls {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
 }
 
-#pagination-controls .pagination-button:hover {
-    background-color: #0056b3;      /* Darken the background on hover */
+#filter-controls input {
+    padding: 8px;
+    margin-right: 10px;
+    width: 200px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
 }
 
-#pagination-controls .pagination-button:disabled {
-    background-color: #ddd;         /* Change background color for disabled state */
-    cursor: not-allowed;            /* Change cursor to indicate disabled */
+#contacts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-#pagination-controls input {
-    width: 50px;                    /* Set a fixed width for the page input */
-    text-align: center;              /* Center the text inside the input field */
-    padding: 5px;                    /* Add padding inside the input */
-    margin: 0 5px;                   /* Add spacing around the input */
-    border-radius: 4px;              /* Round the corners of the input */
-    border: 1px solid #ccc;         /* Set a border color for the input */
+#contacts-table th, #contacts-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border: 1px solid #dee2e6;
 }
 
-#pagination-controls span {
-    margin: 0 5px;                   /* Add spacing around the page number text */
+#contacts-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+#contacts-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#contacts-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    margin-top: auto; /* Pushes footer to the bottom of the page */
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 

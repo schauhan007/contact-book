@@ -2,6 +2,12 @@ let currentPage = 1;
 let limit = 3;
 let totalPages;
 let totalRows;
+let filterData = {
+    filterName: "",
+    filterEmail: "",
+    filterMobileNumber: "",
+    filterDate: "",
+}
 
 $(document).on('click', '#add-contact', function(){
     const form = $('#add-contact-form')[0];
@@ -65,17 +71,31 @@ $(document).on('click', '#add-contact', function(){
     
 })
 
-function contactList(page){
+function contactList(page = 1){
+
+    const filterName = $('#filter-name').val();
+    const filterEmail = $('#filter-email').val();
+    const filterMobileNumber = $('#filter-mobileNumber').val();
+    const filterDate = $('#filter-date').val();
+
+    filterData = {
+        filterName: filterName,
+        filterEmail: filterEmail,
+        filterMobileNumber: filterMobileNumber,
+        filterDate: filterDate,
+    }
 
     $.ajax({
         url: '/user/contact/list',
         type: 'POST',
-        data: { page: page, limit: limit },
+        data: { page: page, limit: limit, filterData },
         success: function(response){
             
             $("#table-body").html(response.data.fileToBeRender);
 
             const pagination = response.data.pagination;
+
+            console.log("Response--------------------->", response);
 
             $("#pagination-controls").html(`
                 <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
@@ -115,7 +135,7 @@ function contactList(page){
 
 }
 $(document).ready(function(){
-    contactList()
+    contactList(currentPage)
 })
 
 
@@ -181,4 +201,38 @@ $(document).on('change', '#rows-per-page', function () {
     }
     contactList(currentPage);
 
+});
+
+$(document).on('input', '#filter-name', function(){
+    const contact = $(this).val();
+
+    contactList(currentPage);
+});
+
+
+$(document).on('input', '#filter-email', function(){
+    const contact = $(this).val().trim();
+
+    contactList(currentPage);
+});
+
+
+$(document).on('input', '#filter-mobileNumber', function(){
+    const contact = Number($(this).val().trim());
+
+    contactList(currentPage);
+});
+
+
+$(document).on('input', '#filter-groups', function(){
+    const contact = $(this).val().trim();
+
+    contactList(currentPage);
+});
+
+
+$(document).on('input', '#filter-date', function(){
+    const contact = $(this).val().trim();
+
+    contactList(currentPage);
 });
