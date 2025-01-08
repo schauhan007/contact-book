@@ -100,19 +100,24 @@ function contactList(page = 1){
             $("#pagination-controls").html(`
                 <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
                 <span>
-                    Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
+                    <---- Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
                 </span>
                 <span>
-                    Rows per page: 
+                    ----> Rows per page:
                     <select id="rows-per-page" style="margin-left: 5px;">
                         <option selected>Open this select menu</option>
-                        ${[1, 2, 3, 4, 5, 6].map(limit => `
-                            <option value="${limit}" ${pagination.rowsPerPage === limit ? 'selected' : ''}>${limit}</option>
-                        `).join('')}
                     </select>
                 </span>
                 <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
                 `);
+
+                const rowsPerPageArray = [3, 6, 9, 12, 15];
+                rowsPerPageArray.forEach(element => {
+                    const options = $('<option></option>')
+                        .val(element)
+                        .text(element);
+                    $('#rows-per-page').append(options);
+                });
 
                 const selectedOption = $('#rows-per-page').find(`option[value="${limit}"]`);
 
