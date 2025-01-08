@@ -1,74 +1,92 @@
 /* General body styling */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: #f4f4f9;
 }
 
-/* Center the login container */
+/* Centering the login page */
 #login-page-div {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 400px;
+    padding: 40px 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-/* Form input fields */
-input[type="text"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin: 10px 0;
+/* Heading styling */
+#login-page-div h2 {
+    margin-bottom: 30px;
+    font-size: 26px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Form styling */
+#login-page-div form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#login-page-div input[type="text"] {
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
     box-sizing: border-box;
 }
 
-/* Login button */
+#login-page-div input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Login button styling */
 #login-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
     width: 100%;
-    margin-top: 10px;
+    padding: 12px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 #login-button:hover {
     background-color: #0056b3;
 }
 
-/* Links styling */
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-/* Additional options below form */
+/* Switch options styling */
 #switch-options {
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 14px;
-}
-
-#switch-options p {
-    margin: 0;
+    color: #666;
 }
 
 #switch-options span {
     display: block;
-    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#switch-options a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#switch-options a:hover {
+    text-decoration: underline;
 }

@@ -1,62 +1,150 @@
-/* General Body and HTML Styles */
-html, body {
-    height: 100%;  /* Ensures the body and HTML take up the full height of the viewport */
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
 }
 
-/* Body Layout: Using flexbox to handle content layout */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%; /* Ensures the body takes the full height */
-}
-
-/* Main content section: takes available space above the footer */
-main {
-    flex: 1;
-}
-
-/* Button, filter and table styles */
+/* Add Contact Button */
 #add-contact-popup {
-    margin-top: 20px;
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+#add-contact-popup:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+#add-contact-popup:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+}
+
+/* Pagination Controls */
 #pagination-controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 14px;
+    color: #333;
 }
 
+/* Pagination Buttons */
+.pagination-button {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.pagination-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+}
+
+/* Page Input Styling */
+#current-page-input {
+    padding: 6px;
+    font-size: 14px;
+    text-align: center;
+    width: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+#current-page-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Rows per page Dropdown */
+#rows-per-page {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+    background-color: #fff;
+}
+
+#rows-per-page:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Filter Controls */
 #filter-controls {
     display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px auto;
+    flex-wrap: wrap;
 }
 
 #filter-controls input {
-    padding: 8px;
-    margin-right: 10px;
-    width: 200px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
 }
 
+#filter-controls input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Contacts Table */
 #contacts-table {
-    width: 100%;
+    width: 90%;
+    margin: 20px auto;
     border-collapse: collapse;
-    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#contacts-table th, #contacts-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border: 1px solid #dee2e6;
-}
-
-#contacts-table th {
+#contacts-table thead {
     background-color: #007bff;
-    color: white;
+    color: #fff;
+    text-align: left;
+}
+
+#contacts-table th,
+#contacts-table td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
 }
 
 #contacts-table tbody tr:nth-child(even) {
@@ -64,26 +152,47 @@ main {
 }
 
 #contacts-table tbody tr:hover {
-    background-color: #e9ecef;
+    background-color: #f1f1f1;
 }
 
-/* Footer Styles */
-footer {
+/* Table Actions */
+#contacts-table td:last-child {
     text-align: center;
-    padding: 20px 0;
-    background-color: #007bff;
-    color: white;
-    width: 100%;
-    margin-top: auto; /* Pushes footer to the bottom of the page */
 }
 
-footer a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
+/* Responsive Design */
+@media (max-width: 768px) {
+    #pagination-controls {
+        font-size: 12px;
+        flex-direction: column;
+        align-items: center;
+    }
 
-footer a:hover {
-    text-decoration: underline;
-}
+    .pagination-button {
+        padding: 6px 15px;
+        font-size: 12px;
+    }
 
+    #current-page-input {
+        width: 40px;
+    }
+
+    #rows-per-page {
+        width: 150px;
+    }
+
+    #filter-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #contacts-table {
+        font-size: 14px;
+    }
+
+    #contacts-table th,
+    #contacts-table td {
+        padding: 8px 10px;
+    }
+}
