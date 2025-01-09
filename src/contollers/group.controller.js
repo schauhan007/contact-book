@@ -57,7 +57,7 @@ export const postGroupList = async (req, res) => {
         return res.json(success_res("data get successfully", {fileToBeRender, pagination}))
 
     } catch (error) {
-        
+        return res.json(error_res(error));
     }
 
 }
@@ -92,8 +92,7 @@ export const addGroup = async (req, res) => {
         return res.json(success_res("Group Created Successfully", data))
 
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 
 }
@@ -133,8 +132,7 @@ export const editGroup = async (req, res) => {
         
 
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 
 }
@@ -163,12 +161,10 @@ export const deleteGroup = async (req, res) => {
         const total = await Group.countDocuments({ userId: user._id });
 
         return res.json(success_res("Group deleted successfully", total));
-        
 
     } catch (error) {
         
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
 
     }
 

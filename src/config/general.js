@@ -51,7 +51,7 @@ export const uploadImage = async (image) => {
         }
         
     } catch (error) {
-        return error_res("error ocuured during upload an image",error);
+        return error_res(error);
     }
 
 }
@@ -73,7 +73,7 @@ export const removeOldImage = async (image) => {
         }
 
     } catch (error) {
-        return error_res("error ocuured during remove an image",error);
+        return error_res(error);
     }
     
 }

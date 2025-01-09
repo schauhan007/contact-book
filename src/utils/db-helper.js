@@ -10,7 +10,6 @@ export const connectDB = async (req, res) => {
         
 
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }

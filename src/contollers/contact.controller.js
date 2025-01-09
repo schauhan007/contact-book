@@ -71,8 +71,7 @@ export const postContactList = async (req, res) => {
         return res.json(success_res("", {fileToBeRender, pagination}));
         
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
     
 }
@@ -139,8 +138,7 @@ export const addContact =  async (req, res) => {
         return res.json(error_res("Contact already exist"));
             
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 
 }
@@ -179,7 +177,6 @@ export const editContact = async (req, res) => {
 
         let updateImage = null;
         let removedImage = null;
-        
         
         const findSelectedContact = await Contact.findOne({ _id: contactId});        
 
@@ -224,8 +221,7 @@ export const editContact = async (req, res) => {
         return res.json(success_res("Contact has been updated!", updateContact));
                 
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
 
@@ -237,10 +233,7 @@ export const deleteContact = async (req, res) => {
         const user = req.session.user;
         const contactId = req.body.contactId;
 
-
-        const deleteContact = await Contact.findOne({_id: contactId});
-        console.log("deletecontact--------->",deleteContact);
-        
+        const deleteContact = await Contact.findOne({_id: contactId});        
 
         if(!deleteContact){
             return res.json(error_res("Contact not found!"));
@@ -255,8 +248,7 @@ export const deleteContact = async (req, res) => {
         return res.json(success_res("Contact Deleted Successfully", total));
 
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
     
 }

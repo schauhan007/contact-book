@@ -18,8 +18,7 @@ export const getLoginPage = async (req, res) => {
         res.render('login');
 
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 
 }
@@ -30,8 +29,7 @@ export const getRegisterPage = async (req, res) => {
     try {
         res.render('register')
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
 
@@ -41,8 +39,7 @@ export const getForgotPasswordPage = async (req, res) => {
     try {
         return res.render('forgetPassword');
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
 
@@ -52,8 +49,7 @@ export const getResetPasswordPage = async (req, res) => {
     try {
         return res.render('resetPassword');
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
 
@@ -101,8 +97,7 @@ export const postRegisteration = async (req, res) => {
             return res.json(error_res("Username is already taken"));
         }
     } catch (error) {
-        console.log(error);
-        return res.json(error_res("Something went wrong"))
+        return res.json(error_res(error));
     }
 }
 
@@ -134,8 +129,7 @@ export const postLogin = async (req, res) => {
 
         return res.json(success_res("Verified user email & password"));
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
 
@@ -148,8 +142,7 @@ export const logOutUser = async (req, res) => {
         return res.json(success_res("Logout successfully!"));
     }
     catch(error){
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
 
@@ -203,8 +196,7 @@ export const forgotPassword = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error);
-        return res.json(error_res("Email not sent"));
+        return res.json(error_res(error));
     }
 }
 
@@ -251,7 +243,6 @@ export const resetPassword = async (req, res) => {
         return res.json(success_res("Password Reset Successfully"));
 
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }

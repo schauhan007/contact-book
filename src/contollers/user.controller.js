@@ -18,9 +18,8 @@ export const getDashboard = async (req,res) => {
             }
         });
     }
-    catch(err){
-        console.log(err);
-        throw err;
+    catch(error){
+        return res.json(error_res(error));
     }
 }
 
@@ -38,8 +37,7 @@ export const getGroups = async (req, res) => {
             }
          })
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
 
@@ -59,7 +57,6 @@ export const getContacts = async (req, res) => {
             }
          })
     } catch (error) {
-        console.log(error);
-        throw error;
+        return res.json(error_res(error));
     }
 }
