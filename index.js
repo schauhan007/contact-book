@@ -8,6 +8,8 @@ import cookieParser from "cookie-parser";
 import authRouter from './src/routes/auth.routes.js';
 import userRouter from './src/routes/user.routes.js';
 import fileUpload from 'express-fileupload';
+import groupRouter from './src/routes/group.routes.js';
+import contactRouter from './src/routes/contact.routes.js';
 
 const app = express();
 const __dirname = path.resolve();
@@ -36,6 +38,8 @@ app.use(fileUpload());
 
 app.use('/', authRouter);
 app.use('/user', userRouter);
+app.use('/group', groupRouter);
+app.use('/contact', contactRouter);
 
 connectDB().then(() => {
 

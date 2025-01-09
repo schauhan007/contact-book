@@ -4,7 +4,7 @@ $(document).on('click', '#delete-group', function(){
     
     $.ajax({
 
-        url: '/user/group/delete',
+        url: '/group/delete',
         type: 'post',
         data: {groupId},
         success: function(response){

@@ -6,7 +6,6 @@ import crypto from 'crypto';
 import { sendEmail } from "../utils/email.js";
 import { Password } from "../models/password.model.js";
 
-
 // get login page controller
 export const getLoginPage = async (req, res) => {
 
@@ -62,23 +61,34 @@ export const getResetPasswordPage = async (req, res) => {
 // registeration controller
 export const postRegisteration = async (req, res) => {
     try {
-        const param = req.body;
+        const { name, username, email, password } = req.body;
 
-        const username = param.username;
-        const email = param.email;
+        if(!name){
+            return res.json(error_res("name is required!"))
+        }
+        if(!username){
+            return res.json(error_res("username is required!"))
+        }
+        if(!email){
+            return res.json(error_res("email is required!"))
+        }
+        if(!password){
+            return res.json(error_res("password is required!"))
+        }
 
+        // user validation for registeration
         const checkUsername = await User.find({username: username});
         
         if(!checkUsername.length){
             const checkEmail = await User.find({email: email});
             if(!checkEmail.length){
 
-                const hashedPassword = await bcrypt.hash(param.password, 10)
+                const hashedPassword = await bcrypt.hash(password, 10)
                 
                 const data = await User.create({
-                    name: param.name,
-                    username: param.username,
-                    email: param.email,
+                    name: name,
+                    username: username,
+                    email: email,
                     password: hashedPassword,
                 })
         
@@ -98,7 +108,6 @@ export const postRegisteration = async (req, res) => {
 
 
 // login controller
-
 export const postLogin = async (req, res) => {
     try {
 
@@ -132,7 +141,6 @@ export const postLogin = async (req, res) => {
 
 
 // logout controller
-
 export const logOutUser = async (req, res) => {
     try{
 
@@ -149,7 +157,6 @@ export const logOutUser = async (req, res) => {
 // ------------------------------------ Password Controllers ------------------------------------
 
 // forget password controller 
-
 export const forgotPassword = async (req, res) => {
     try {
 
@@ -203,7 +210,6 @@ export const forgotPassword = async (req, res) => {
 
 
 // reset password controller
-
 export const resetPassword = async (req, res) => {
 
     try {

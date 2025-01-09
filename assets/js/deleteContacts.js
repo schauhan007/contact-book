@@ -4,7 +4,7 @@ $(document).on('click', '#delete-contact', function(){
     
     $.ajax({
 
-        url: '/user/contact/delete',
+        url: '/contact/delete',
         type: 'post',
         data: {contactId: contactId},
         success: function(response){

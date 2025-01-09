@@ -15,7 +15,7 @@
 
     <input type="text" id="filter-name" name="filterName" placeholder="Search by name">
     <input type="text" id="filter-email" name="filterEmail" placeholder="Search by email">
-    <input type="text" id="filter-mobileNumber" name="filterMobileNumber" placeholder="Search by mobile number">
+    <input type="text" id="filter-mobileNumber" name="filterMobileNumber" minlength="10" maxlength="10" placeholder="Search by mobile number">
     <input type="date" id="filter-date" name="filterDate" placeholder="Search by createdAt">
 
   </div>
@@ -59,7 +59,7 @@
                 <input type="file" id="add-image" name="image" accept="image/*" required><br><br>
 
                 <label for="mobile">Mobile Number:</label>
-                <input type="number" id="add-mobile" name="mobile" minlength="10" maxlength="10" required><br><br>
+                <input type="text" id="add-mobile" name="mobile" minlength="10" maxlength="10" required><br><br>
                 
                 <label for="groups">Groups:</label>
                 <select class="form-select mb-3" id="add-select-group" aria-label="Default select example">
@@ -93,32 +93,31 @@
         
             <form id="edit-contact-form" enctype="multipart/form-data" >
               <input type="hidden" id="update-contact-id" name="contactId" value="">
-                <label for="name">Name:</label>
-                <input type="text" id="edit-name" name="name" value="" required><br><br>
-
-                <label for="email">Email:</label>
-                <input type="email" id="edit-email" name="email" value="" required><br><br>
-
-                <label for="image">Upload Image:</label>
-                <input type="file" id="edit-image" name="image" value="" accept="image/*" required><br><br>
-
-                <label for="mobile">Mobile Number:</label>
-                <input type="number" id="edit-mobile" name="mobile" value="" minlength="10" maxlength="10" required><br><br>
-
-                <label for="groups">Groups:</label>
-                <select class="form-select mb-3" id="edit-select-group" name="editContactGroup" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
-                  <% (header.userGroups).forEach(element => { %>
-                    <option data-group-id="<%= element.id %>" value="<%= element.id %>"> 
-                      <%= element.groupName %>
-                    </option>
-                  <% }) %>
-                  
-                  
-                </select>
                 
-                <button type="button" id="close-modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="update-contact" class="btn btn-primary">Save changes</button>
+              <label for="name">Name:</label>
+              <input type="text" id="edit-name" name="name" value="" required><br><br>
+
+              <label for="email">Email:</label>
+              <input type="email" id="edit-email" name="email" value="" required><br><br>
+
+              <label for="image">Upload Image:</label>
+              <input type="file" id="edit-image" name="image" value="" accept="image/*" required><br><br>
+
+              <label for="mobile">Mobile Number:</label>
+              <input type="text" id="edit-mobile" name="mobile" value="" minlength="10" maxlength="10" required><br><br>
+
+              <label for="groups">Groups:</label>
+              <select class="form-select mb-3" id="edit-select-group" name="groupId" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <% (header.userGroups).forEach(element => { %>
+                  <option data-group-id="<%= element.id %>" value="<%= element.id %>"> 
+                    <%= element.groupName %>
+                  </option>
+                <% }) %>
+              </select>
+              
+              <button type="button" id="close-modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" id="update-contact" class="btn btn-primary">Save changes</button>
             </form>
 
         </div>

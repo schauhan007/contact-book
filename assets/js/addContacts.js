@@ -16,7 +16,7 @@ $(document).on('click', '#add-contact', function(){
 
     $.ajax({
 
-        url: '/user/contact/add',
+        url: '/contact/add',
         type: 'POST',
         data: formData,
         processData: false,
@@ -29,30 +29,6 @@ $(document).on('click', '#add-contact', function(){
                 
                 $('#exampleModal').modal("hide");
                 $('#add-contact-form')[0].reset();
-
-                // $('#table-body').append(`
-                //     <tr data-name="${response.data.name}" data-email="${response.data.email}" data-MobileNumber="${response.data.MobileNumber}" data-groupId="${response.data.groupId._id}">
-                //         <td><img src="../../assets/images/${response.data.image}"  width='100' height='100' style="border-radius: 50%"></td>
-                //         <td>${response.data.name}</td>
-                //         <td>${response.data.email}</td>
-                //         <td>${response.data.MobileNumber}</td>
-                //         <td>${response.data.groupId.groupName}</td>
-                //         <td>
-                //             <button type="button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-contact-id="${response.data._id}">Edit</button>
-                //             <button type="button"class="delete-button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-contact-id="${response.data._id}">Delete</button>
-                //         </td>
-                //     </tr>
-                // `);
-
-                // const selectedOption = $('#edit-select-group').find(`option[data-group-id="${response.data.groupId._id}"]`);
-                
-                // if(selectedOption.length){
-                //     $('#edit-select-group').val(selectedOption.val());
-                // }
-                // else{
-                //     console.log("No matching option found for Group ID:", response.data.groupId._id);
-                // }
-                
                 
                 contactList(currentPage);
             }
@@ -86,24 +62,22 @@ function contactList(page = 1){
     }
 
     $.ajax({
-        url: '/user/contact/list',
+        url: '/contact/list',
         type: 'POST',
         data: { page: page, limit: limit, filterData },
         success: function(response){
-            
+
             $("#table-body").html(response.data.fileToBeRender);
 
             const pagination = response.data.pagination;
 
-            console.log("Response--------------------->", response);
-
             $("#pagination-controls").html(`
                 <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
                 <span>
-                    <---- Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
+                    Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
                 </span>
                 <span>
-                    ----> Rows per page:
+                    Rows per page:
                     <select id="rows-per-page" style="margin-left: 5px;">
                         <option selected>Open this select menu</option>
                     </select>
@@ -223,21 +197,29 @@ $(document).on('input', '#filter-email', function(){
 
 
 $(document).on('input', '#filter-mobileNumber', function(){
-    const contact = Number($(this).val().trim());
-
+    const inputValue = $(this).val().trim();
+    $(this).val(inputValue.replace(/[^0-9]/g, ''));
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#filter-groups', function(){
     const contact = $(this).val().trim();
-
+    
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#filter-date', function(){
     const contact = $(this).val().trim();
-
+    
     contactList(currentPage);
+});
+
+
+$(document).on('input', '#add-mobile, #edit-mobile', function(){
+    
+    const inputValue = $(this).val().trim();
+    $(this).val(inputValue.replace(/[^0-9]/g, ''));
+    
 });
