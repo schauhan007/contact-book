@@ -1,6 +1,6 @@
 import { Contact } from "../models/contact.model.js";
 import ejs from 'ejs';
-import { error_res, success_res, uploadImage } from "../config/general.js";
+import { error_res, success_res, uploadImage, removeOldImage } from "../config/general.js";
 
 
 
@@ -152,9 +152,7 @@ export const editContact = async (req, res) => {
         
         const { contactId, name, email, mobile, groupId } = req.body;
         const image = req.files;
-        const user = req.session.user;
-
-        console.log("Req.Body-------------------------->", req.body);
+        const user = req.session.user;        
 
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -181,12 +179,22 @@ export const editContact = async (req, res) => {
         }
 
         let updateImage = null;
+        let removedImage = null;
+        
+        
+        const findSelectedContact = await Contact.findOne({ _id: contactId});
+        console.log("findSelectedContact------------------->", findSelectedContact);
+        
 
         if(image){
             updateImage = await uploadImage(image);
+            if(updateImage.flag == 0){
+                return res.json(updateImage);
+            }
+            
+            await removeOldImage(findSelectedContact.image);
         }
 
-        const findSelectedContact = await Contact.findOne({ _id: contactId});
 
         if(!findSelectedContact){
             return res.json(error_res("Contact not found"));
@@ -196,6 +204,7 @@ export const editContact = async (req, res) => {
             const validateMobile = await Contact.findOne({ userId: user._id, MobileNumber : mobile });
 
             if(validateMobile){
+
                 return res.json(error_res("Please enter unique value of mobile number!"));
             }
 

@@ -1,3 +1,8 @@
+import { error } from 'console';
+import { Contact } from '../models/contact.model.js';
+import fs from 'fs';
+import path from 'path';
+
 export const success_res = (msg = "", data = {}) => {
     return {
         flag: 1,
@@ -21,7 +26,7 @@ export const uploadImage = async (image) => {
         if(image !== null){
             
             for(const key in image){
-    
+                
                 const img = image[key];
                 
                 let imgName = `${Math.floor(Math.random() * 1000 * 1000)}.${img.name.split(".").pop().toLowerCase()}`;
@@ -46,8 +51,29 @@ export const uploadImage = async (image) => {
         }
         
     } catch (error) {
-        console.log(error);
-        throw error;
+        return error_res("error ocuured during upload an image",error);
     }
 
+}
+
+
+export const removeOldImage = async (image) => {
+
+    try {
+        
+        if(image){
+
+            const removePath = `assets/images/${image}`;
+    
+            if(fs.existsSync(removePath)){
+                
+                fs.unlinkSync(removePath);
+                
+            }
+        }
+
+    } catch (error) {
+        return error_res("error ocuured during remove an image",error);
+    }
+    
 }
