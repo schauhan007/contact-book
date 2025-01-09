@@ -10,7 +10,6 @@ export const postContactList = async (req, res) => {
         
         const user = req.session.user;
         const body = req.body;
-        console.log("req.body------------------->", req.body);
         
         const filterData = req.body.filterData;
         
@@ -182,9 +181,7 @@ export const editContact = async (req, res) => {
         let removedImage = null;
         
         
-        const findSelectedContact = await Contact.findOne({ _id: contactId});
-        console.log("findSelectedContact------------------->", findSelectedContact);
-        
+        const findSelectedContact = await Contact.findOne({ _id: contactId});        
 
         if(image){
             updateImage = await uploadImage(image);
@@ -242,10 +239,14 @@ export const deleteContact = async (req, res) => {
 
 
         const deleteContact = await Contact.findOne({_id: contactId});
+        console.log("deletecontact--------->",deleteContact);
+        
 
         if(!deleteContact){
             return res.json(error_res("Contact not found!"));
         }
+
+        await removeOldImage(deleteContact.image)
 
         await Contact.findOneAndDelete({ _id: contactId});
 
