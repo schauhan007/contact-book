@@ -64,7 +64,7 @@ export const postContactList = async (req, res) => {
                     // ]);      
                     
                     
-                    const fileToBeRender = await ejs.renderFile(__dirname + "../src/views/contactsTable.ejs", {
+                    const fileToBeRender = await ejs.renderFile(__dirname + "/src/views/contactsTable.ejs", {
             body: {
                 data: data,
             }

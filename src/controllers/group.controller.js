@@ -48,7 +48,7 @@ export const postGroupList = async (req, res) => {
             limit: limit,
         };
         
-        const fileToBeRender = await ejs.renderFile( __dirname + "../src/views/groupList.ejs", {
+        const fileToBeRender = await ejs.renderFile( __dirname + "/src/views/groupList.ejs", {
             body : {
                 data: data,
                 pagination: pagination,
