@@ -3,7 +3,7 @@ import { getLoginPage, getRegisterPage, getForgotPasswordPage, getResetPasswordP
 
 const authRouter = express.Router();
 
-authRouter.get('/', getLoginPage);
+authRouter.get('/login', getLoginPage);
 authRouter.get('/register', getRegisterPage);
 authRouter.get('/forgetPassword', getForgotPasswordPage);
 authRouter.get('/resetPassword/:token', getResetPasswordPage);

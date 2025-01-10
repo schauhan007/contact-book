@@ -15,7 +15,7 @@ $(document).on('click', '#register-button', function(){
 
             if(response.flag === 1){
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = '/login';
                 }, 1100)
             }
         },
