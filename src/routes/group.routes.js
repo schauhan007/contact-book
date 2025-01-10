@@ -1,6 +1,6 @@
 import express from 'express';
 import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { addGroup, deleteGroup, editGroup, postGroupList } from '../contollers/group.controller.js';
+import { addGroup, deleteGroup, editGroup, postGroupList } from '../controllers/group.controller.js';
 
 const groupRouter = express.Router();
 
