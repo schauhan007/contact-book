@@ -24,7 +24,7 @@ $(document).on('click', '#reset-password', function() {
             if(response.flag === 1) {
 
                 setTimeout(() => {
-                    window.location.href = '/login';
+                    window.location.href = '/';
                 }, 1100);
             }
             $('#reset-password').attr('disabled', false);

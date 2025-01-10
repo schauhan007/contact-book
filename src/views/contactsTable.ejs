@@ -33,12 +33,16 @@
     </tr>
 <% } else { %>
     <% (body.data).forEach(element => { %>
-        <tr data-name="<%= element.name %>" data-email="<%= element.email %>" data-mobilenumber="<%= element.MobileNumber %>" data-group-id="<%= element.groupId._id %>">
+        <tr data-name="<%= element.name %>" data-email="<%= element.email %>" data-mobilenumber="<%= element.MobileNumber %>" data-group-id="<%= element?.groupId?._id %>">
             <td><img src="../../assets/images/<%= element.image%>"  width='100' height='100' style="border-radius: 50%"></td>
             <td data-name="<%= element.name %>"><%= element.name %></td>
             <td data-email="<%= element.email %>"><%= element.email %></td>
             <td data-MobileNumber="<%= element.MobileNumber %>"><%= element.MobileNumber %></td>
-            <td data-groupId="<%= element.groupId %>"><%= element.groupId.groupName%></td>
+            <% if(element.groupId != null){ %>
+                <td data-groupId="<%= element.groupId %>"><%= element.groupId.groupName %></td>
+            <% } else { %>
+                <td >-</td>
+            <% } %>
             <td data-name="<%= element.createdAt %>"><%= timeAgo(element.createdAt) %></td>
             <td>
                 <button type="button" class="edit-button" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-contact-id="<%= element.id %>">Edit</button>

@@ -143,7 +143,7 @@ $(document).on('click','#add-select-group', function(){
         $('#select-group').val(selectedOption.data('group-id'));
     } else {
         console.log("No valid option selected or the default option is selected.");
-      }    
+    }    
 })
 
 $(document).on('click', '.pagination-button', function () {

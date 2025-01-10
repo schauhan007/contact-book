@@ -50,6 +50,18 @@ body {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+
+#register-page-div form input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ced4da; /* Light gray border */
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
 #register-page-div form input[type="text"]:focus {
     border-color: #007bff; /* Blue border on focus */
     outline: none;

@@ -2,7 +2,8 @@ import { Group } from "../models/group.model.js";
 import { Contact } from "../models/contact.model.js"
 import ejs from 'ejs';
 import { error_res, success_res } from "../config/general.js";
-
+import path from 'path';
+const __dirname = path.resolve();
 
 export const postGroupList = async (req, res) => {
     
@@ -47,7 +48,7 @@ export const postGroupList = async (req, res) => {
             limit: limit,
         };
         
-        const fileToBeRender = await ejs.renderFile("/Node/Practice/src/views/groupList.ejs", {
+        const fileToBeRender = await ejs.renderFile( __dirname + "../src/views/groupList.ejs", {
             body : {
                 data: data,
                 pagination: pagination,

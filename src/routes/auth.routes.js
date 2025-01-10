@@ -1,9 +1,9 @@
 import express from 'express';
-import { getLoginPage, getRegisterPage, getForgotPasswordPage, getResetPasswordPage, postRegisteration, postLogin, logOutUser, forgotPassword, resetPassword } from '../contollers/auth.controller.js';
+import { getLoginPage, getRegisterPage, getForgotPasswordPage, getResetPasswordPage, postRegisteration, postLogin, logOutUser, forgotPassword, resetPassword } from '../controllers/auth.controller.js';
 
 const authRouter = express.Router();
 
-authRouter.get('/login', getLoginPage);
+authRouter.get('/', getLoginPage);
 authRouter.get('/register', getRegisterPage);
 authRouter.get('/forgetPassword', getForgotPasswordPage);
 authRouter.get('/resetPassword/:token', getResetPasswordPage);

@@ -63,7 +63,7 @@
                 
                 <label for="groups">Groups:</label>
                 <select class="form-select mb-3" id="add-select-group" aria-label="Default select example">
-                  <option selected>Open this select menu</option>
+                  <option selected value="">Open this select menu</option>
                   <% (header.userGroups).forEach(element => { %>
                     <option data-group-id="<%= element.id %>"><%= element.groupName %></option>
                   <% }) %>
@@ -108,7 +108,7 @@
 
               <label for="groups">Groups:</label>
               <select class="form-select mb-3" id="edit-select-group" name="groupId" aria-label="Default select example">
-                <option selected>Open this select menu</option>
+                <option selected value="">Open this select menu</option>
                 <% (header.userGroups).forEach(element => { %>
                   <option data-group-id="<%= element.id %>" value="<%= element.id %>"> 
                     <%= element.groupName %>

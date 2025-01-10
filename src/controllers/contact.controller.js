@@ -1,6 +1,8 @@
 import { Contact } from "../models/contact.model.js";
 import ejs from 'ejs';
 import { error_res, success_res, uploadImage, removeOldImage } from "../config/general.js";
+import path from 'path';
+const __dirname = path.resolve();
 
 
 
@@ -62,7 +64,7 @@ export const postContactList = async (req, res) => {
                     // ]);      
                     
                     
-                    const fileToBeRender = await ejs.renderFile("/Node/Practice/src/views/contactsTable.ejs", {
+                    const fileToBeRender = await ejs.renderFile(__dirname + "../src/views/contactsTable.ejs", {
             body: {
                 data: data,
             }
@@ -97,17 +99,11 @@ export const addContact =  async (req, res) => {
         if(!(emailPattern.test(email))){
             return res.json(error_res("Please enter valid email"));
         }
-        if(!image){
-            return res.json(error_res("image is required!"));
-        }
         if(!mobile){
             return res.json(error_res("mobile number is required!"));
         }
         if(mobile.length !== 10){
             return res.json(error_res("Please enter your 10 digit mobile number"));
-        }
-        if(!groupId){
-            return res.json(error_res("Please select group!"));
         }
 
         const findContact = await Contact.findOne({
@@ -117,9 +113,22 @@ export const addContact =  async (req, res) => {
             ]
         });
 
+        console.log("findContact---------------->",findContact);
+        
+
         if(findContact == null){
+
+            let uploadedImage;
             
-            const uploadedImage = await uploadImage(image);
+            if(image != null){
+
+                uploadedImage = await uploadImage(image);
+            }else{
+                uploadedImage = "default.png"
+            }
+
+
+            
             
             const data = await Contact.create({
                 userId: userId,
@@ -127,12 +136,16 @@ export const addContact =  async (req, res) => {
                 email: email,
                 image: uploadedImage,
                 MobileNumber: mobile,
-                groupId: groupId,
+                groupId: groupId ? groupId : null,
             });
 
-            const data1 = await Contact.findOne({MobileNumber: mobile}).populate('groupId');
+            if(groupId != null){
 
-            return res.json(success_res("Contact Created Successfully", data1));
+                const data1 = await Contact.findOne({MobileNumber: mobile}).populate('groupId');
+    
+                return res.json(success_res("Contact Created Successfully", data1));
+            }
+            return res.json(success_res("Contact Created Successfully", data));
         }
         
         return res.json(error_res("Contact already exist"));
@@ -148,6 +161,9 @@ export const editContact = async (req, res) => {
     try {
         
         const { contactId, name, email, mobile, groupId } = req.body;
+
+        console.log("formData-------------->", req.body);
+
         const image = req.files;
         const user = req.session.user;        
 
@@ -171,13 +187,9 @@ export const editContact = async (req, res) => {
         if(mobile.length !== 10){
             return res.json(error_res("Please enter your 10 digit mobile number"));
         }
-        if(!groupId){
-            return res.json(error_res("Please select group!"));
-        }
 
         let updateImage = null;
-        let removedImage = null;
-        
+
         const findSelectedContact = await Contact.findOne({ _id: contactId});        
 
         if(image){
@@ -188,7 +200,6 @@ export const editContact = async (req, res) => {
             
             await removeOldImage(findSelectedContact.image);
         }
-
 
         if(!findSelectedContact){
             return res.json(error_res("Contact not found"));
@@ -209,16 +220,22 @@ export const editContact = async (req, res) => {
             email: email, 
             image: updateImage ? updateImage : findSelectedContact.image,
             MobileNumber: mobile,
-            groupId: groupId,
-        };        
+            groupId: groupId ? groupId : null,
+        };
 
-        const updateContact = await Contact.findOneAndUpdate(
-                    { _id: contactId },
-                    updateObj,
-                    { new: true }
-                ).populate('groupId');
+        console.log("UpdatedObj------------->", updateObj)
+
+            const updateContact = await Contact.findOneAndUpdate(
+                { _id: contactId },
+                updateObj,
+                { new: true }
+            ).populate('groupId');
+
+            return res.json(success_res("Contact has been updated!", updateContact));
+
+        
             
-        return res.json(success_res("Contact has been updated!", updateContact));
+        
                 
     } catch (error) {
         return res.json(error_res(error));
@@ -239,7 +256,10 @@ export const deleteContact = async (req, res) => {
             return res.json(error_res("Contact not found!"));
         }
 
-        await removeOldImage(deleteContact.image)
+        if(deleteContact.image != "default.png"){
+            await removeOldImage(deleteContact.image)
+        }
+
 
         await Contact.findOneAndDelete({ _id: contactId});
 

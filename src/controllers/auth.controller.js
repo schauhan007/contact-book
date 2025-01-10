@@ -58,6 +58,7 @@ export const getResetPasswordPage = async (req, res) => {
 export const postRegisteration = async (req, res) => {
     try {
         const { name, username, email, password } = req.body;
+        const passwordPattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\d\s])(?!.*\s).{6,}$/;
 
         if(!name){
             return res.json(error_res("name is required!"))
@@ -70,6 +71,9 @@ export const postRegisteration = async (req, res) => {
         }
         if(!password){
             return res.json(error_res("password is required!"))
+        }
+        if (!(passwordPattern.test(password))) {
+            return res.json(error_res("Password length must br 8 with 1 digit, capital letter, small letter and a special character"));
         }
 
         // user validation for registeration
