@@ -13,6 +13,10 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
     },
+    isGoogle: {
+        type: Number,
+        default: 0,
+    }
 })
 
 export const User = mongoose.model('User', userSchema);

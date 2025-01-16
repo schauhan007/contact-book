@@ -138,6 +138,40 @@ export const postLogin = async (req, res) => {
 }
 
 
+export const googleLogin = async (req, res) => {
+    
+    const user = req.user;
+    const email = user.emails[0].value;
+    const name = user.displayName;
+    
+    const userExist = await User.findOne({email: email});
+
+    if(!userExist){
+        const randomNumber = Math.floor(Math.random() * 1000).toString().padStart(4, '0');
+        const username = user.name.givenName.slice(0, 4).toLowerCase() + user.name.familyName.slice(0, 4).toLowerCase() + randomNumber;
+
+        await User.create({
+            name: name,
+            username: username,
+            email: email,
+            password: null,
+            isGoogle: 1,
+        });
+    }
+
+    const findUser = await User.findOne({email: email});
+
+    const token = jwt.sign({id: findUser._id,name: findUser.name, email: findUser.email,}, process.env.JWT_SECRET, {
+                expiresIn : "1d",
+            })
+                    
+            req.session.user = findUser;   
+            req.session.token = token;
+    
+    res.redirect('/user/dashboard');
+} 
+
+
 // logout controller
 export const logOutUser = async (req, res) => {
     try{

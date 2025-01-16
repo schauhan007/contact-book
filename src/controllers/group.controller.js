@@ -67,7 +67,9 @@ export const addGroup = async (req, res) => {
     
     try {
         
-        const user = req.session.user
+        const user = req.session.user;
+        console.log("USerrrrrrrrr", user);
+        
         
         const groupName = req.body.groupName;
 

@@ -14,11 +14,19 @@
             Password: <input type="password" id="password" name="password" placeholder="Enter Your Password">
             <button type="button" id="login-button">Login</button>
         </form>
+        <div>
+            <p id="or">or</p>
+        </div>
+        <div>
+            <button type="button" id="login-with-google">
+                <a href="/auth/google">Login with google</a>
+            </button>
+        </div>
         <div id="switch-options">
             <p>
-                <span>New to App? <a href="/register">Create an account</a></span><br>
-                <span><a href="/forgetPassword">Forget Password</a></span>
-            </p>
+                New to App? <a href="/register">Create an account</a><br>
+                Lost password? <a href="/forgetPassword">Reset it here</a>
+            </p>              
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
