@@ -13,7 +13,6 @@ export const postGroupList = async (req, res) => {
         const body = req.body;
 
         const filterData = req.body.filterData;
-        console.log("req.body--------------->", req.body);
 
         const query = { userId: user._id }
         
