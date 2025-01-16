@@ -158,10 +158,15 @@ export const forgotPassword = async (req, res) => {
     try {
 
         const email = req.body.email;
+
+        if(!email){
+            return res.json(error_res("Please enter your email"));
+        }
+
         const findUser = await User.findOne({ email: email });
 
         if(!findUser){
-            return res.json(error_res("Email not found"));
+            return res.json(error_res("Invalid Email"));
         }
 
         const findPreviousToken = await Password.findOne({ email: email, resetPasswordTokenExpire: { $gt: Date.now() } });
@@ -195,7 +200,7 @@ export const forgotPassword = async (req, res) => {
                 resetPasswordTokenExpire: resetPasswordTokenExpire,
             });
             
-            return res.json(success_res("Password reset link sent to a user successfully", {email, encryptedResetToken, resetUrl}));
+            return res.json(success_res("A password reset link has been sent successfully. Please check your email inbox.", {email, encryptedResetToken, resetUrl}));
         }
 
 
@@ -211,28 +216,27 @@ export const resetPassword = async (req, res) => {
     try {
         
         const resetToken = req.params.token;
-        console.log("Param token---->",resetToken);
-        
 
         const findToken = await Password.findOne({ resetPasswordToken: resetToken, resetPasswordTokenExpire: { $gt: Date.now() }});
-        console.log("Find Token---->", findToken);
-        
 
         if(!findToken){
-            return res.json(error_res("Invalid Token or Token Has Expired"));
+            return res.json(error_res("The token is invalid or has expired"));
         }
-        
 
         const {resetPassword, verifyResetPassword} = req.body;
+        const passwordPattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\d\s])(?!.*\s).{6,}$/;
 
         if(!resetPassword){
-            return res.json(error_res("Password is required"));
+            return res.json(error_res("A password is required"));
         }
         if(!verifyResetPassword){
-            return res.json(error_res("Verify Password is required"));
+            return res.json(error_res("Password verification is required"));
+        }
+        if(!(passwordPattern.test(resetPassword))) {
+            return res.json(error_res("Password length must br 8 with 1 digit, capital letter, small letter and a special character"));
         }
         if(resetPassword !== verifyResetPassword){
-            return res.json(error_res("Password and Verify Password should be same"));
+            return res.json(error_res("Both password field should be same"));
         }
         
         const newPassword = req.body.resetPassword;

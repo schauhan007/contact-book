@@ -1,4 +1,4 @@
-$(document).on('click', '#reset-password', function() {
+$(document).on('click', '#reset-password-button', function() {
 
     const form = $('#reset-password-form')[0];
     const formData = new FormData(form);
@@ -27,11 +27,21 @@ $(document).on('click', '#reset-password', function() {
                     window.location.href = '/';
                 }, 1100);
             }
-            $('#reset-password').attr('disabled', false);
+            $('#reset-password-button').attr('disabled', false);
         },
         error: function(error) {
             console.log("error bol",error); 
         }
     });
 
+});
+
+
+$(document).on('keypress', '#reset-password, #verify-reset-password', function(event) {
+    const resetPasswordButton = $('#reset-password-button');
+
+    if (event.key === 'Enter') {
+        resetPasswordButton.click();
+    }
+    
 });

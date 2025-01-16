@@ -25,4 +25,14 @@ $(document).on('click', '#register-button', function(){
         }
     })
 
-})
+});
+
+
+$(document).on('keypress', '#name, #username, #email, #password', function(event) {
+    const registerButton = $('#register-button');
+
+    if (event.key === 'Enter') {
+        registerButton.click();
+    }
+    
+});

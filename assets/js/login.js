@@ -30,3 +30,12 @@ $(document).on('click', '#login-button', function(){
     })
 
 })
+
+$(document).on('keypress', '#email, #password', function(event) {
+    const loginButton = $('#login-button');
+
+    if (event.key === 'Enter') {
+        loginButton.click();
+    }
+
+});

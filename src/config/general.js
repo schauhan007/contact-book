@@ -64,6 +64,10 @@ export const removeOldImage = async (image) => {
         if(image){
 
             const removePath = `assets/images/${image}`;
+
+            if(image == "default.png"){
+                return ;
+            }
     
             if(fs.existsSync(removePath)){
                 

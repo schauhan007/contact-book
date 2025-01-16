@@ -26,3 +26,14 @@ $(document).on('click', '#forget-password', function() {
     });
 
 });
+
+
+$(document).on('keypress', '#email', function(event) {
+    const forgotPasswordButton = $('#forget-password');
+
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        forgotPasswordButton.click();
+    }
+    
+});

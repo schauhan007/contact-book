@@ -111,10 +111,7 @@ export const addContact =  async (req, res) => {
                 {userId: user._id },
                 {MobileNumber: mobile},
             ]
-        });
-
-        console.log("findContact---------------->",findContact);
-        
+        });        
 
         if(findContact == null){
 
@@ -127,9 +124,6 @@ export const addContact =  async (req, res) => {
                 uploadedImage = "default.png"
             }
 
-
-            
-            
             const data = await Contact.create({
                 userId: userId,
                 name: name,
@@ -194,6 +188,7 @@ export const editContact = async (req, res) => {
 
         if(image){
             updateImage = await uploadImage(image);
+            
             if(updateImage.flag == 0){
                 return res.json(updateImage);
             }
@@ -232,10 +227,6 @@ export const editContact = async (req, res) => {
             ).populate('groupId');
 
             return res.json(success_res("Contact has been updated!", updateContact));
-
-        
-            
-        
                 
     } catch (error) {
         return res.json(error_res(error));
@@ -256,10 +247,7 @@ export const deleteContact = async (req, res) => {
             return res.json(error_res("Contact not found!"));
         }
 
-        if(deleteContact.image != "default.png"){
-            await removeOldImage(deleteContact.image)
-        }
-
+        await removeOldImage(deleteContact.image);
 
         await Contact.findOneAndDelete({ _id: contactId});
 
