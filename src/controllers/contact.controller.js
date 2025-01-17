@@ -156,8 +156,6 @@ export const editContact = async (req, res) => {
         
         const { contactId, name, email, mobile, groupId } = req.body;
 
-        console.log("formData-------------->", req.body);
-
         const image = req.files;
         const user = req.session.user;        
 
@@ -217,8 +215,6 @@ export const editContact = async (req, res) => {
             MobileNumber: mobile,
             groupId: groupId ? groupId : null,
         };
-
-        console.log("UpdatedObj------------->", updateObj)
 
             const updateContact = await Contact.findOneAndUpdate(
                 { _id: contactId },

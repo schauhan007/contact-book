@@ -68,9 +68,7 @@ export const addGroup = async (req, res) => {
     try {
         
         const user = req.session.user;
-        console.log("USerrrrrrrrr", user);
-        
-        
+
         const groupName = req.body.groupName;
 
         if(!groupName){
@@ -106,8 +104,6 @@ export const editGroup = async (req, res) => {
         
         const { groupId, groupName } = req.body;
         const user = req.session.user;
-
-        console.log("req.body----------------->", req.body);
 
         if(!groupName){
             return res.json(error_res("GroupName is required!"));

@@ -25,9 +25,7 @@ $(document).on('click', '#forget-password', function() {
 
         },
         error: function(error) {
-            
             toastCalling(error.message, 0);
-            
         }
     });
 

@@ -19,8 +19,7 @@ $(document).on('click', '#logout-button', function(){
             }
         },
         error: function(error){
-            console.log("Error",error);
-            throw error;
+            toastCalling(error.message, 0);
         }
     })
 

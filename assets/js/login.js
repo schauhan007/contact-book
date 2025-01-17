@@ -23,9 +23,8 @@ $(document).on('click', '#login-button', function(){
             $('#login-button').attr('disabled', false);
 
         },
-        error: function(error){
-            console.log("Error",error);
-            throw error;
+        error: function(error){    
+            toastCalling(error.message, 0);
         }
     })
 

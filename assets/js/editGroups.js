@@ -25,7 +25,7 @@ $(document).on('click', '#edit-group', function(){
 
         },
         error: function(error){
-
+            toastCalling(error.message, 0);
         }
     });
 

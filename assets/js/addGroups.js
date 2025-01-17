@@ -38,10 +38,7 @@ $(document).on('click', '#add-group', function () {
 
         },
         error: function (error) {
-
-            console.log("Error at /user/group/add post route---------------------->", error);
-
-
+            toastCalling(error.message, 0);
         }
 
     })
@@ -66,8 +63,6 @@ function groupList(page = 1) {
         type: 'POST',
         data: { page: page, limit: limit , filterData },
         success: function (response) {
-
-            console.log("Response------------>", response);
 
             $("#table-body").html(response.data.fileToBeRender);
 
@@ -112,7 +107,7 @@ function groupList(page = 1) {
 
         },
         error: function (error) {
-
+            toastCalling(error.message, 0);
         }
     })
 

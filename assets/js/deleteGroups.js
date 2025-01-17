@@ -16,13 +16,8 @@ $(document).on('click', '#delete-group', function(){
                 $('#exampleModal2').modal("hide");
 
                 const totalRows = response.data;
-                console.log("Lengthhhh", totalRows);
                 
-                const totalPages = Math.ceil(totalRows / limit);
-
-                console.log("CurrentPAGE-------->", currentPage);
-                console.log("totalPages-------->", totalPages);
-                
+                const totalPages = Math.ceil(totalRows / limit);                
 
                 if(currentPage > totalPages){
                     currentPage = totalPages 

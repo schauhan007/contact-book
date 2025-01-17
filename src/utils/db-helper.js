@@ -7,7 +7,6 @@ export const connectDB = async (req, res) => {
         
         mongoose.connect(process.env.DB_URL)
         console.log("Database connected");
-        
 
     } catch (error) {
         return res.json(error_res(error));

@@ -214,15 +214,9 @@ export const forgotPassword = async (req, res) => {
             return res.json(error_res("Invalid Email"));
         }
 
-        console.log("Userrrrrrrrrrrrrrrrrrr", findUser);
-        
-
         if(findUser.isGoogle === 1){
-            return res.json(error_res("This account belongs to google ac.", {isGoogle: 1}))
-            // return res.redirect('/auth/error');
+            return res.json(error_res("This account sign up via google sign-in", {isGoogle: 1}));
         }
-
-        console.log("Userrrrrrrrrrrrrrrrrrr", findUser);
 
         const findPreviousToken = await Password.findOne({ email: email, resetPasswordTokenExpire: { $gt: Date.now() } });
 

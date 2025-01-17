@@ -24,7 +24,7 @@ $(document).on('click', '#update-contact', function(){
         
         },
         error: function(error){
-
+            toastCalling(error.message, 0);
         }
 
     });

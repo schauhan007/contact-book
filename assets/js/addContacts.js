@@ -39,9 +39,7 @@ $(document).on('click', '#add-contact', function(){
 
         },
         error: function(error){
-            
-            console.log("Error at /user/contact/add post route---------------------->", error);
-            
+            toastCalling(error.message, 0);
         }
     })
     

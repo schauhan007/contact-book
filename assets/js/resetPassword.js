@@ -4,10 +4,8 @@ $(document).on('click', '#reset-password-button', function() {
     const formData = new FormData(form);
 
     const urlPath = window.location.pathname;
-    console.log("urlPath--->", urlPath);
 
     const token = urlPath.split('/').pop();
-    console.log("token--->", token);
     $(this).attr('disabled', true);
     
  
@@ -30,7 +28,7 @@ $(document).on('click', '#reset-password-button', function() {
             $('#reset-password-button').attr('disabled', false);
         },
         error: function(error) {
-            console.log("error bol",error); 
+            toastCalling(error.message, 0);
         }
     });
 

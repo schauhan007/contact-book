@@ -28,7 +28,7 @@ $(document).on('click', '#delete-contact', function(){
 
         },
         error: function(error){
-
+            toastCalling(error.message, 0);
         }
 
     });

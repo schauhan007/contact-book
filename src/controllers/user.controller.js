@@ -28,8 +28,6 @@ export const getGroups = async (req, res) => {
     try {
 
         const user = req.session;
-        // console.log("session----------->", user);
-        
 
         res.render('groups',{ 
             header: {
