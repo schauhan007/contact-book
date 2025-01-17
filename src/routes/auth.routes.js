@@ -1,5 +1,5 @@
 import express from 'express';
-import { getLoginPage, getRegisterPage, getForgotPasswordPage, getResetPasswordPage, postRegisteration, postLogin, logOutUser, forgotPassword, resetPassword, googleLogin } from '../controllers/auth.controller.js';
+import { getLoginPage, getRegisterPage, getForgotPasswordPage, getAuthErrorPage, getResetPasswordPage, postRegisteration, postLogin, logOutUser, forgotPassword, resetPassword, googleLogin } from '../controllers/auth.controller.js';
 import passport from 'passport';
 import { User } from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
@@ -9,6 +9,7 @@ const authRouter = express.Router();
 authRouter.get('/', getLoginPage);
 authRouter.get('/register', getRegisterPage);
 authRouter.get('/forgetPassword', getForgotPasswordPage);
+authRouter.get('/auth/error', getAuthErrorPage);
 authRouter.get('/resetPassword/:token', getResetPasswordPage);
 
 authRouter.post('/login', postLogin);

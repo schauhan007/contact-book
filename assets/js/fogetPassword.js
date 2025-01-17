@@ -19,9 +19,15 @@ $(document).on('click', '#forget-password', function() {
                 $('#toast-message').html(response.msg);
 
             }
+            if(response.flag === 0 && response.data.isGoogle === 1) {
+                window.location.href = "/auth/error"
+            }
+
         },
         error: function(error) {
-            console.log("error bol",error); 
+            
+            toastCalling(error.message, 0);
+            
         }
     });
 

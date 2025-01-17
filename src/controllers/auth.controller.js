@@ -44,6 +44,15 @@ export const getForgotPasswordPage = async (req, res) => {
 }
 
 
+export const getAuthErrorPage = async (req, res) => {
+    try {
+        return res.render('authError');
+    } catch (error) {
+        return res.json(error_res(error));
+    }
+}
+
+
 // get forgot password page controller
 export const getResetPasswordPage = async (req, res) => {
     try {
@@ -95,10 +104,10 @@ export const postRegisteration = async (req, res) => {
                 return res.json(success_res("Registration Successfull", { data }))
             }
             else{
-                return res.json(error_res("Email is already exist"));
+                return res.json(error_res("The email address provided is already in use"));
             }
         }else{
-            return res.json(error_res("Username is already taken"));
+            return res.json(error_res("The username provided is already in use"));
         }
     } catch (error) {
         return res.json(error_res(error));
@@ -116,7 +125,9 @@ export const postLogin = async (req, res) => {
         if(!password) return res.json(error_res("Password is required"));
         
         const user = await User.findOne({ email });
+        
         if(!user) return res.json(error_res("Invalid email or password"));
+        if(user.isGoogle === 1) return res.json(error_res("Please use google sign-in"));
 
         const isMatch = await bcrypt.compare(password, user.password);
 
@@ -202,6 +213,16 @@ export const forgotPassword = async (req, res) => {
         if(!findUser){
             return res.json(error_res("Invalid Email"));
         }
+
+        console.log("Userrrrrrrrrrrrrrrrrrr", findUser);
+        
+
+        if(findUser.isGoogle === 1){
+            return res.json(error_res("This account belongs to google ac.", {isGoogle: 1}))
+            // return res.redirect('/auth/error');
+        }
+
+        console.log("Userrrrrrrrrrrrrrrrrrr", findUser);
 
         const findPreviousToken = await Password.findOne({ email: email, resetPasswordTokenExpire: { $gt: Date.now() } });
 
