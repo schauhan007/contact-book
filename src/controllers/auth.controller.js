@@ -73,8 +73,14 @@ export const postRegisteration = async (req, res) => {
         if(!name){
             return res.json(error_res("name is required!"))
         }
+        if(name.length < 3){
+            return res.json(error_res("Name length should be 3 or greater than 3"));
+        }
         if(!username){
             return res.json(error_res("username is required!"))
+        }
+        if(username.length < 3){
+            return res.json(error_res("username length should be 3 or greater than 3"));
         }
         if(!email){
             return res.json(error_res("email is required!"))
@@ -90,11 +96,11 @@ export const postRegisteration = async (req, res) => {
         }
 
         // user validation for registeration
-        const checkUsername = await User.find({username: username});
+        const checkUsername = await User.findOne({username: username});
         
-        if(!checkUsername.length){
-            const checkEmail = await User.find({email: email});
-            if(!checkEmail.length){
+        if(!checkUsername){
+            const checkEmail = await User.findOne({email: email});
+            if(!checkEmail){
 
                 const hashedPassword = await bcrypt.hash(password, 10)
                 
