@@ -67,6 +67,7 @@ export const getResetPasswordPage = async (req, res) => {
 export const postRegisteration = async (req, res) => {
     try {
         const { name, username, email, password } = req.body;
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const passwordPattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\d\s])(?!.*\s).{6,}$/;
 
         if(!name){
@@ -77,6 +78,9 @@ export const postRegisteration = async (req, res) => {
         }
         if(!email){
             return res.json(error_res("email is required!"))
+        }
+        if(!(emailPattern.test(email))){
+            return res.json(error_res("Please enter valid email"));
         }
         if(!password){
             return res.json(error_res("password is required!"))
