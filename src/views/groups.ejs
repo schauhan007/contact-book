@@ -17,17 +17,6 @@
     Add Group
 </button>
 <div id="pagination-controls">
-  <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
-  <span>
-      Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
-  </span>
-  <span>
-      Rows per page: 
-      <select id="rows-per-page" style="margin-left: 5px;">
-          <option selected>Open this select menu</option>
-      </select>
-  </span>
-  <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
   
 </div>
 
@@ -67,7 +56,7 @@
               <input type="hidden" id="get-group-id" name="groupId" value="">
 
               <label for="groupName">Enter Group name:</label>
-              <input type="text" id="groupName" name="groupName">
+              <input type="text" id="groupName" name="groupName" minlength="3" maxlength="15">
 
               <button type="button" id="close-modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="button" id="add-group" class="btn btn-primary">Save changes</button>
@@ -94,7 +83,7 @@
               <input type="hidden" id="edit-group-id" name="groupId" value="">
 
               <label for="groupName">Enter Group name:</label>
-              <input type="text" id="edit-groupName" value="" name="groupName">
+              <input type="text" id="edit-groupName" value="" name="groupName" minlength="3" maxlength="15">
 
               <button type="button" id="close-modal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="button" id="edit-group" class="btn btn-primary">Save changes</button>

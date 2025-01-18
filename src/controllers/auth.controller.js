@@ -56,6 +56,15 @@ export const getAuthErrorPage = async (req, res) => {
 // get forgot password page controller
 export const getResetPasswordPage = async (req, res) => {
     try {
+        let token = req.params.token;
+        console.log("Token-------------->", token);
+        
+        const tokenExist = await Password.findOne({resetPasswordToken: token});
+
+        if(!tokenExist){
+            return res.render('404');
+        }
+
         return res.render('resetPassword');
     } catch (error) {
         return res.json(error_res(error));
@@ -66,21 +75,33 @@ export const getResetPasswordPage = async (req, res) => {
 // registeration controller
 export const postRegisteration = async (req, res) => {
     try {
+        
         const { name, username, email, password } = req.body;
+
+        console.log("Req.body----------->", req.body);
+        
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        const passwordPattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\d\s])(?!.*\s).{6,}$/;
+        const passwordPattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\d\s])(?!.*\s).{8,}$/;
+        const namePattern = /^[A-Za-z]+$/;
+        const usernamePattern = /^(?=(.*[a-z]){3})[a-zA-Z0-9_]{3,15}$/;
 
         if(!name){
             return res.json(error_res("name is required!"))
         }
-        if(name.length < 3){
-            return res.json(error_res("Name length should be 3 or greater than 3"));
+        if(!(namePattern.test(name))){
+            return res.json(error_res("Please enter valid name"));
+        }
+        if(name.length < 3 ){
+            return res.json(error_res("Name must be at least 3 characters"));
         }
         if(!username){
             return res.json(error_res("username is required!"))
         }
+        if(!(usernamePattern.test(username))){
+            return res.json(error_res("Username must contain at least 3 alphabetic characters"))
+        }
         if(username.length < 3){
-            return res.json(error_res("username length should be 3 or greater than 3"));
+            return res.json(error_res("Username must be at least 3 characters"));
         }
         if(!email){
             return res.json(error_res("email is required!"))
@@ -92,7 +113,7 @@ export const postRegisteration = async (req, res) => {
             return res.json(error_res("password is required!"))
         }
         if (!(passwordPattern.test(password))) {
-            return res.json(error_res("Password length must br 8 with 1 digit, capital letter, small letter and a special character"));
+            return res.json(error_res("Password must be 8 characters with uppercase, lowercase, number and special character"));
         }
 
         // user validation for registeration
@@ -119,6 +140,7 @@ export const postRegisteration = async (req, res) => {
         }else{
             return res.json(error_res("The username provided is already in use"));
         }
+
     } catch (error) {
         return res.json(error_res(error));
     }
@@ -153,6 +175,7 @@ export const postLogin = async (req, res) => {
         req.session.token = token;
 
         return res.json(success_res("Verified user email & password"));
+        
     } catch (error) {
         return res.json(error_res(error));
     }
@@ -279,7 +302,7 @@ export const resetPassword = async (req, res) => {
         const findToken = await Password.findOne({ resetPasswordToken: resetToken, resetPasswordTokenExpire: { $gt: Date.now() }});
 
         if(!findToken){
-            return res.json(error_res("The token is invalid or has expired"));
+            return res.json(error_res("The token has expired"));
         }
 
         const {resetPassword, verifyResetPassword} = req.body;
@@ -292,7 +315,7 @@ export const resetPassword = async (req, res) => {
             return res.json(error_res("Password verification is required"));
         }
         if(!(passwordPattern.test(resetPassword))) {
-            return res.json(error_res("Password length must br 8 with 1 digit, capital letter, small letter and a special character"));
+            return res.json(error_res("Password must be 8 characters with uppercase, lowercase, number and special character"));
         }
         if(resetPassword !== verifyResetPassword){
             return res.json(error_res("Both password field should be same"));

@@ -1,17 +1,23 @@
-function toastCalling(msg, flag){
+let currentToast = null;
 
-    let color = "gray";
-    flag === 0 ? color = "red" : color = "green";
+function toastCalling(msg, flag) {
 
-    Toastify({
+    let color = flag === 0 ? "red" : "green";
+
+    if (currentToast) {
+        currentToast.hideToast();
+    }
+
+    currentToast = Toastify({
         text: msg,
-        duration: 1000,
+        duration: 3000,
         gravity: "top",
         position: "center",
         backgroundColor: color,
         stopOnFocus: true,
-    }).showToast();
+    });
 
+    currentToast.showToast();
 }
 
 

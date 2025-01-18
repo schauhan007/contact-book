@@ -77,7 +77,6 @@ function groupList(page = 1) {
             <span>
                 Rows per page: 
                 <select id="rows-per-page" style="margin-left: 5px;">
-                    <option selected>Open this select menu</option>
                 </select>
             </span>
             <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
@@ -159,6 +158,13 @@ $(document).on('input', '#filter-groupName', function(){
     const contact = $(this).val().trim();
 
     groupList(currentPage);
+});
+
+
+$(document).on('input', '#groupName', function(){
+    const groupName = $(this).val()
+
+    $(this).val(groupName.replace(/[^a-zA-Z]/g, ''));
 });
 
 

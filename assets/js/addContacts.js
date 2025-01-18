@@ -77,7 +77,6 @@ function contactList(page = 1){
                 <span>
                     Rows per page:
                     <select id="rows-per-page" style="margin-left: 5px;">
-                        <option selected>Open this select menu</option>
                     </select>
                 </span>
                 <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
@@ -106,6 +105,7 @@ function contactList(page = 1){
         
         },
         error: function(error){
+            toastCalling(error.message, 0);
 
         }
     })
@@ -221,3 +221,11 @@ $(document).on('input', '#add-mobile, #edit-mobile', function(){
     $(this).val(inputValue.replace(/[^0-9]/g, ''));
     
 });
+
+$(document).on('input', '#add-name', function(){
+
+    const name = $(this).val();
+
+    $(this).val(name.replace(/\s{2,}/g , " "));
+
+})

@@ -82,13 +82,21 @@ export const postContactList = async (req, res) => {
 export const addContact =  async (req, res) => {
     try {
         const userId = req.userId;
-        const {groupId, name, email, mobile} = req.body;
+        let {groupId, name, email, mobile} = req.body;
         const image = req.files;
         const user = req.session.user;
+        const namePattern = /^[A-Za-z]+$/;
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        name = name.trim();
+        console.log("Name------------>", {name});
+        
 
         if(!name){
             return res.json(error_res("name is required!"));
+        }
+        if(!(namePattern.test(name))){
+            return res.json(error_res("Please enter valid name"));
         }
         if(name.length < 3){
             return res.json(error_res("Name length should be 3 or greater than 3!"));

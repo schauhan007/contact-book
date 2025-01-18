@@ -46,3 +46,9 @@ $(document).on('click', '.edit-button', function(){
     $('#edit-groupName').val(groupName);
 
 })
+
+$(document).on('input', '#edit-groupName', function(){
+    const groupName = $(this).val()
+
+    $(this).val(groupName.replace(/[^a-zA-Z\s]/g, ''));
+});

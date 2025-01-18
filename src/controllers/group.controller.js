@@ -69,13 +69,20 @@ export const addGroup = async (req, res) => {
         
         const user = req.session.user;
 
-        const groupName = req.body.groupName;
+        let groupName = req.body.groupName;
+        
+        const groupNamePattern = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+        groupName = groupName.trim();
+        console.log("groupName---------------------->", {groupName});
 
         if(!groupName){
             return res.json(error_res("Group name is required!"));
         }
         if(groupName.length < 3){
             return res.json(error_res("GroupName length should be 3 or greater than 3"));
+        }
+        if(!(groupNamePattern.test(groupName))){
+            return res.json(error_res("Please enter valid name"));
         }
         
         const findGroup = await Group.find({ userId: user._id , groupName: groupName });
@@ -102,12 +109,16 @@ export const editGroup = async (req, res) => {
     
     try {
         
-        const { groupId, groupName } = req.body;
+        let { groupId, groupName } = req.body;
         const user = req.session.user;
+        console.log("Req.body---------------------->", req.body);
 
         if(!groupName){
             return res.json(error_res("GroupName is required!"));
         }
+        groupName = groupName.trim();
+        console.log("GroupName------------------------>", {groupName});
+        
 
         const findGroup = await Group.findOne({ _id: groupId });
 
