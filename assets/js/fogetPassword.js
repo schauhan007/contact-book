@@ -16,7 +16,7 @@ $(document).on('click', '#forget-password', function() {
 
             if(response.flag === 1) {
 
-                $('#toast-message').html(response.msg);
+                $('#toast-message').html(response.msg).css('color', response.msg == 'A password reset link has been sent successfully. Please check your email inbox.' ? 'green' : 'red');
 
             }
             if(response.flag === 0 && response.data.isGoogle === 1) {
