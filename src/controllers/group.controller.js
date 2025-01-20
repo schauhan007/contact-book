@@ -12,9 +12,10 @@ export const postGroupList = async (req, res) => {
         const user = req.session.user;
         const body = req.body;
 
-        const { filterGroupName, filterDate } = req.body.filterData;        
+        let { filterGroupName, filterDate } = req.body.filterData;        
 
-        const query = { userId: user._id }
+        filterGroupName = filterGroupName.trim().replace(/\s{2,}/g,' ');
+        const query = { userId: user._id };
         
         if(filterGroupName){
             query.groupName = { $regex: filterGroupName, $options: 'i' };

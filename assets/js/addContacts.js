@@ -184,26 +184,26 @@ $(document).on('input', '#filter-email', function(){
 
 
 $(document).on('input', '#filter-mobileNumber', function(){
-    const inputValue = $(this).val().trim();
+    const inputValue = $(this).val();
     $(this).val(inputValue.replace(/[^0-9]/g, ''));
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#filter-groups', function(){
-    const contact = $(this).val().trim();
+    const contact = $(this).val();
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#filter-date', function(){
-    const contact = $(this).val().trim();
+    const contact = $(this).val();
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#add-mobile, #edit-mobile', function(){
-    const inputValue = $(this).val().trim();
+    const inputValue = $(this).val();
     $(this).val(inputValue.replace(/[^0-9]/g, ''));
 });
 

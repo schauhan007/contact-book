@@ -15,8 +15,7 @@ export const postContactList = async (req, res) => {
         
         let {filterName, filterEmail, filterMobileNumber, filterDate} = body.filterData;
         
-        filterName = filterName.trim();
-        
+        filterName = filterName.trim().replace(/\s{2,}/g," ");
         
         let query = { userId: user._id }
         
