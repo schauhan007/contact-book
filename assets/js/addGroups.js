@@ -159,7 +159,7 @@ $(document).on('change', '#rows-per-page', function () {
 $(document).on('input', '#filter-groupName', function(){
     const contact = $(this).val().trim();
 
-    groupList(currentPage);
+    groupList(1);
 });
 
 

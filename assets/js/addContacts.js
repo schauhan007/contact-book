@@ -172,33 +172,33 @@ $(document).on('change', '#rows-per-page', function () {
 $(document).on('input', '#filter-name', function(){
     const filterName = $(this).val();
     $(this).val(filterName.replace(/[^A-Za-z\s]/g,''));
-    contactList(currentPage);
+    contactList(1);
 });
 
 
 $(document).on('input', '#filter-email', function(){
     const filterEmail = $(this).val();
     $(this).val(filterEmail.replace(/[^A-Za-z0-9.@]/g,'').replace(/\s/g, ''));
-    contactList(currentPage);
+    contactList(1);
 });
 
 
 $(document).on('input', '#filter-mobileNumber', function(){
     const inputValue = $(this).val();
     $(this).val(inputValue.replace(/[^0-9]/g, ''));
-    contactList(currentPage);
+    contactList(1);
 });
 
 
 $(document).on('input', '#filter-groups', function(){
     const contact = $(this).val();
-    contactList(currentPage);
+    contactList(1);
 });
 
 
 $(document).on('input', '#filter-date', function(){
     const contact = $(this).val();
-    contactList(currentPage);
+    contactList(1);
 });
 
 
