@@ -13,23 +13,32 @@ export const postContactList = async (req, res) => {
         const user = req.session.user;
         const body = req.body;
         
-        const filterData = req.body.filterData;
+        let {filterName, filterEmail, filterMobileNumber, filterDate} = body.filterData;
         
-        const query = { userId: user._id }
+        filterName = filterName.trim();
         
-        if(filterData.filterName){
-            query.name = filterData.filterName;
+        
+        let query = { userId: user._id }
+        
+        if(filterName){
+            query.name = { $regex: filterName, $options: 'i' };
         }
-        if(filterData.filterEmail){
-            query.email = filterData.filterEmail;
+        if(filterEmail){
+            query.email = { $regex: filterEmail, $options: 'i' };
         }
-        if(filterData.filterMobileNumber){
-            query.MobileNumber = Number(filterData.filterMobileNumber);
-            
+        if(filterMobileNumber){
+            query= { ...query,
+                "$expr": {
+                  "$regexMatch": {
+                    "input": { "$toString": "$MobileNumber" },
+                    "regex": filterMobileNumber.toString(),
+                  }
+                }
+            };
         }
-        if(filterData.filterDate){
-            const startDate = new Date(`${filterData.filterDate}T00:00:00Z`);
-            const endDate = new Date(`${filterData.filterDate}T23:59:59Z`)
+        if(filterDate){
+            const startDate = new Date(`${filterDate}T00:00:00Z`);
+            const endDate = new Date(`${filterDate}T23:59:59Z`);
             query.createdAt = {
                 $gte: startDate,
                 $lt: endDate,
@@ -37,14 +46,15 @@ export const postContactList = async (req, res) => {
         }        
         
         const page = parseInt(req.body.page) || 1;
-        const limit = parseInt(req.body.limit) || 10;
+        const limit = parseInt(req.body.limit) || 3;
         
         const skip = (page - 1) * limit;
+        
         
         const total = await Contact.countDocuments(query);
         
         const data = await Contact.find(query).populate('groupId').sort({ createdAt: -1 }).skip(skip).limit(limit);
-        
+
         const pagination = {
             totalData: total,
             currentPage: page,
@@ -85,12 +95,12 @@ export const addContact =  async (req, res) => {
         let {groupId, name, email, mobile} = req.body;
         const image = req.files;
         const user = req.session.user;
-        const namePattern = /^[A-Za-z]+$/;
+        const namePattern = /^[A-Za-z\s]+$/;
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-        name = name.trim();
-        console.log("Name------------>", {name});
-        
+        name = name.trim().replace(/\s{2,}/g, " ").substring(0,30);
+        // name input: '       Shubham    Chuahan     '
+        // name output: 'Shubham Chuahan'
 
         if(!name){
             return res.json(error_res("name is required!"));
@@ -126,7 +136,6 @@ export const addContact =  async (req, res) => {
             let uploadedImage;
             
             if(image != null){
-
                 uploadedImage = await uploadImage(image);
             }else{
                 uploadedImage = "default.png"
@@ -162,15 +171,18 @@ export const addContact =  async (req, res) => {
 export const editContact = async (req, res) => {
     try {
         
-        const { contactId, name, email, mobile, groupId } = req.body;
-
+        let { contactId, name, email, mobile, groupId } = req.body;
+        name = name.trim().replace(/\s{2,}/g, " ").substring(0,30);
         const image = req.files;
-        const user = req.session.user;        
-
+        const user = req.session.user;
+        const namePattern = /^[A-Za-z\s]+$/;
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         if(!name){
             return res.json(error_res("name is required!"));
+        }
+        if(!(namePattern.test(name))){
+            return res.json(error_res("Please enter valid name"));
         }
         if(name.length < 3){
             return res.json(error_res("Name length should be 3 or greater than 3!"));

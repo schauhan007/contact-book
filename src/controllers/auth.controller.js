@@ -57,7 +57,6 @@ export const getAuthErrorPage = async (req, res) => {
 export const getResetPasswordPage = async (req, res) => {
     try {
         let token = req.params.token;
-        console.log("Token-------------->", token);
         
         const tokenExist = await Password.findOne({resetPasswordToken: token});
 
@@ -76,13 +75,15 @@ export const getResetPasswordPage = async (req, res) => {
 export const postRegisteration = async (req, res) => {
     try {
         
-        const { name, username, email, password } = req.body;
-
-        console.log("Req.body----------->", req.body);
+        let { name, username, email, password } = req.body;
+        
+        name = name.trim().replace(/\s{2,}/g, " ").substring(0,30);
+        // name input: '       Shubham    Chuahan     '
+        // name output: 'Shubham Chuahan'
         
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const passwordPattern = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^\w\d\s])(?!.*\s).{8,}$/;
-        const namePattern = /^[A-Za-z]+$/;
+        const namePattern = /^[A-Za-z\s]+$/;
         const usernamePattern = /^(?=(.*[a-z]){3})[a-zA-Z0-9_]{3,15}$/;
 
         if(!name){

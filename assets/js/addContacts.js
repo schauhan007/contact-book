@@ -33,16 +33,13 @@ $(document).on('click', '#add-contact', function(){
                 contactList(currentPage);
             }
             else{
-
                 $('#add-contact').attr("disabled", false);
             }
-
         },
         error: function(error){
             toastCalling(error.message, 0);
         }
     })
-    
 })
 
 function contactList(page = 1){
@@ -69,40 +66,43 @@ function contactList(page = 1){
 
             const pagination = response.data.pagination;
 
-            $("#pagination-controls").html(`
-                <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
-                <span>
-                    Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
-                </span>
-                <span>
-                    Rows per page:
-                    <select id="rows-per-page" style="margin-left: 5px;">
-                    </select>
-                </span>
-                <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
-                `);
+            if(pagination){
 
-                const rowsPerPageArray = [3, 6, 9, 12, 15];
-                rowsPerPageArray.forEach(element => {
-                    const options = $('<option></option>')
-                        .val(element)
-                        .text(element);
-                    $('#rows-per-page').append(options);
-                });
+                $("#pagination-controls").html(`
+                    <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
+                    <span>
+                        Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
+                    </span>
+                    <span>
+                        Rows per page:
+                        <select id="rows-per-page" style="margin-left: 5px;">
+                        </select>
+                    </span>
+                    <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
+                    `);
+    
+                    const rowsPerPageArray = [3, 6, 9, 12, 15];
+                    rowsPerPageArray.forEach(element => {
+                        const options = $('<option></option>')
+                            .val(element)
+                            .text(element);
+                        $('#rows-per-page').append(options);
+                    });
+    
+                    const selectedOption = $('#rows-per-page').find(`option[value="${limit}"]`);
+    
+                    if(selectedOption.length){
+                        $('#rows-per-page').val(selectedOption.val());
+                    }
+                    else{
+                        console.log("No matching option found for limit:", limit);
+                    }
+    
+                    currentPage = pagination.currentPage;
+                    totalPages = pagination.totalPages;
+                    totalRows = pagination.totalData;
+            }
 
-                const selectedOption = $('#rows-per-page').find(`option[value="${limit}"]`);
-
-                if(selectedOption.length){
-                    $('#rows-per-page').val(selectedOption.val());
-                }
-                else{
-                    console.log("No matching option found for limit:", limit);
-                }
-
-                currentPage = pagination.currentPage;
-                totalPages = pagination.totalPages;
-                totalRows = pagination.totalData;
-        
         },
         error: function(error){
             toastCalling(error.message, 0);
@@ -117,22 +117,16 @@ $(document).ready(function(){
 
 
 $(document).on('click', '#close-modal', function(){
-
-    
     $('#exampleModal').modal("hide");
     $('#add-contact-form')[0].reset();
-
 })
 
 $(document).on('click', '#add-contact-popup', function(){
-
     $('#add-contact').attr("disabled", false);
-
 })
 
 
 $(document).on('click','#add-select-group', function(){
-
     const selectedOption = $(this).find(':selected');
 
     if (selectedOption.val() && selectedOption.val() !== "Open this select menu") {
@@ -151,7 +145,6 @@ $(document).on('click', '.pagination-button', function () {
 
 
 $(document).on('input', '#current-page-input', function(){
-
     const newPage = parseInt($(this).val());
 
     if( newPage >= 1  && newPage <= totalPages){
@@ -162,34 +155,30 @@ $(document).on('input', '#current-page-input', function(){
         $(this).val(currentPage);
         toastCalling("Invalid page number!", 0); // Optional: Display an error message
     }
-
 })
 
 
 $(document).on('change', '#rows-per-page', function () {
     const newRowsPerPage = parseInt($(this).val());
-
     limit = newRowsPerPage;
-
     totalPages = Math.ceil( totalRows / limit);
     
     if( currentPage > totalPages ){
         currentPage = totalPages;
     }
     contactList(currentPage);
-
 });
 
 $(document).on('input', '#filter-name', function(){
-    const contact = $(this).val();
-
+    const filterName = $(this).val();
+    $(this).val(filterName.replace(/[^A-Za-z\s]/g,''));
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#filter-email', function(){
-    const contact = $(this).val().trim();
-
+    const filterEmail = $(this).val();
+    $(this).val(filterEmail.replace(/[^A-Za-z0-9.@]/g,'').replace(/\s/g, ''));
     contactList(currentPage);
 });
 
@@ -203,29 +192,23 @@ $(document).on('input', '#filter-mobileNumber', function(){
 
 $(document).on('input', '#filter-groups', function(){
     const contact = $(this).val().trim();
-    
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#filter-date', function(){
     const contact = $(this).val().trim();
-    
     contactList(currentPage);
 });
 
 
 $(document).on('input', '#add-mobile, #edit-mobile', function(){
-    
     const inputValue = $(this).val().trim();
     $(this).val(inputValue.replace(/[^0-9]/g, ''));
-    
 });
 
+
 $(document).on('input', '#add-name', function(){
-
     const name = $(this).val();
-
-    $(this).val(name.replace(/\s{2,}/g , " "));
-
+    $(this).val(name.replace(/[^A-Za-z\s]/g, '').substring(0, 30));
 })

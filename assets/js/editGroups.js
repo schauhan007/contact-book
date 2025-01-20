@@ -44,11 +44,22 @@ $(document).on('click', '.edit-button', function(){
     const groupName = thisParent.data('group-name');
 
     $('#edit-groupName').val(groupName);
+    $('.edit-groupName').text(`Use only alphabetic characters.`).css("color", "black");
 
 })
 
 $(document).on('input', '#edit-groupName', function(){
-    const groupName = $(this).val()
+    const groupName = $(this).val();
+    const groupNameClass = $('.edit-groupName');
+    const textContent = `Use only alphabetic characters. Characters left: ${30 - groupName.length}.`;
+
 
     $(this).val(groupName.replace(/[^a-zA-Z\s]/g, ''));
+
+    if(groupName.trim().length < 3){
+        groupNameClass.css("color", 'red').text(textContent);
+    }
+    else{
+        groupNameClass.css("color", "green").text(textContent);
+    }
 });

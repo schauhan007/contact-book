@@ -68,42 +68,44 @@ function groupList(page = 1) {
 
             // // Update pagination controls
             const pagination = response.data.pagination;
-                
-            $("#pagination-controls").html(`
-            <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
-            <span>
-                Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
-            </span>
-            <span>
-                Rows per page: 
-                <select id="rows-per-page" style="margin-left: 5px;">
-                </select>
-            </span>
-            <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
-            `);
 
-            const rowsPerPageArray = [3, 6, 9, 12, 15];
-            rowsPerPageArray.forEach(element => {
-                const options = $('<option></option>')
-                    .val(element)
-                    .text(element);
-                $('#rows-per-page').append(options);
-            });
-                            
-            const selectedOption = $('#rows-per-page').find(`option[value="${limit}"]`);
+            if(pagination){
 
-            if(selectedOption.length){
-                $('#rows-per-page').val(selectedOption.val());
+                $("#pagination-controls").html(`
+                <button class="pagination-button" data-page="${pagination.currentPage - 1}" ${pagination.currentPage === 1 ? 'disabled' : ''}>Previous</button>
+                <span>
+                    Page <input type="number" id="current-page-input" value="${pagination.currentPage}" min="1" max="${pagination.totalPages}" style="width: 50px; text-align: center;" /> of ${pagination.totalPages} 
+                </span>
+                <span>
+                    Rows per page: 
+                    <select id="rows-per-page" style="margin-left: 5px;">
+                    </select>
+                </span>
+                <button class="pagination-button" data-page="${pagination.currentPage + 1}" ${pagination.currentPage === pagination.totalPages ? 'disabled' : ''}>Next</button>
+                `);
+    
+                const rowsPerPageArray = [3, 6, 9, 12, 15];
+                rowsPerPageArray.forEach(element => {
+                    const options = $('<option></option>')
+                        .val(element)
+                        .text(element);
+                    $('#rows-per-page').append(options);
+                });
+                                
+                const selectedOption = $('#rows-per-page').find(`option[value="${limit}"]`);
+    
+                if(selectedOption.length){
+                    $('#rows-per-page').val(selectedOption.val());
+                }
+                else{
+                    console.log("No matching option found for limit:", limit);
+                }
+    
+                // Update the current page
+                currentPage = pagination.currentPage;
+                totalPages = pagination.totalPages;
+                totalRows = pagination.totalData;
             }
-            else{
-                console.log("No matching option found for limit:", limit);
-            }
-
-            // Update the current page
-            currentPage = pagination.currentPage;
-            totalPages = pagination.totalPages;
-            totalRows = pagination.totalData;
-
         },
         error: function (error) {
             toastCalling(error.message, 0);
@@ -162,9 +164,18 @@ $(document).on('input', '#filter-groupName', function(){
 
 
 $(document).on('input', '#groupName', function(){
-    const groupName = $(this).val()
+    const groupName = $(this).val();
+    const groupNameClass = $('.groupName');
+    const textContent = `Use only alphabetic characters. Characters left: ${30 - groupName.length}.`;
 
-    $(this).val(groupName.replace(/[^a-zA-Z]/g, ''));
+    $(this).val(groupName.replace(/[^a-zA-Z\s]/g, ''));
+
+    if(groupName.trim().length < 3){
+        groupNameClass.css("color", 'red').text(textContent);
+    }
+    else{
+        groupNameClass.css("color", "green").text(textContent);
+    }
 });
 
 

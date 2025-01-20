@@ -59,3 +59,9 @@ $(document).on('click','.edit-button', function(){
     }
     
 })
+
+
+$(document).on('input', '#edit-name', function(){
+    const name = $(this).val();
+    $(this).val(name.replace(/[^A-Za-z\s]/g, '').substring(0,30));
+})

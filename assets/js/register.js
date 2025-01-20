@@ -41,13 +41,13 @@ $(document).on('input', '#name', function() {
     const nameClass = $('.name');
 
     // Replace the input value with an empty string if it doesn't match the pattern
-    $(this).val(name.replace(/\s{1,}/g, '').replace(/\d+/g, '').replace(/[^A-Za-z]/g, '').substring(0,16));
+    $(this).val(name.replace(/[^A-Za-z\s]/g, '').substring(0,30));
 
-    if(name.length < 3){
-        nameClass.css("color", 'red');
+    if(name.trim().length < 3){
+        nameClass.css("color", 'red').text(`Use only alphabetic characters. Characters left: ${30 - name.length}.`);
     }
     else{
-        nameClass.css("color", "green");
+        nameClass.css("color", "green").text(`Use only alphabetic characters. Characters left: ${30 - name.length}.`);
     }
 
 });
@@ -59,13 +59,13 @@ $(document).on('input', '#username', function() {
 
 
     // Replace the input value with an empty string if it doesn't match the pattern
-    $(this).val(username.replace(/[^a-z0-9_]/g, '').substring(0,16));
+    $(this).val(username.replace(/[^a-z0-9_]/g, '').substring(0,21));
 
     if(username.length < 3){
-        usernameClass.css("color", 'red');
+        usernameClass.css("color", 'red').text(`Use only letters, numbers, and underscores. Characters left: ${20 - username.length}.`);
     }
     else{
-        usernameClass.css("color", "green");
+        usernameClass.css("color", "green").text(`Use only letters, numbers, and underscores. Characters left: ${20 - username.length}.`);
     }
 });
 

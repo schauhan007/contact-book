@@ -12,16 +12,16 @@ export const postGroupList = async (req, res) => {
         const user = req.session.user;
         const body = req.body;
 
-        const filterData = req.body.filterData;
+        const { filterGroupName, filterDate } = req.body.filterData;        
 
         const query = { userId: user._id }
         
-        if(filterData.filterGroupName){
-            query.groupName = filterData.filterGroupName;
+        if(filterGroupName){
+            query.groupName = { $regex: filterGroupName, $options: 'i' };
         }
-        if(filterData.filterDate){
-            const startDate = new Date(`${filterData.filterDate}T00:00:00Z`);
-            const endDate = new Date(`${filterData.filterDate}T23:59:59Z`)
+        if(filterDate){
+            const startDate = new Date(`${filterDate}T00:00:00Z`);
+            const endDate = new Date(`${filterDate}T23:59:59Z`)
             query.createdAt = {
                 $gte: startDate,
                 $lt: endDate,
@@ -72,8 +72,9 @@ export const addGroup = async (req, res) => {
         let groupName = req.body.groupName;
         
         const groupNamePattern = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
-        groupName = groupName.trim();
-        console.log("groupName---------------------->", {groupName});
+        groupName = groupName.trim().replace(/\s{2,}/g, " ").substring(0,30);
+        // name input: '       Shubham    Chuahan     '
+        // name output: 'Shubham Chuahan'
 
         if(!groupName){
             return res.json(error_res("Group name is required!"));
@@ -111,14 +112,20 @@ export const editGroup = async (req, res) => {
         
         let { groupId, groupName } = req.body;
         const user = req.session.user;
-        console.log("Req.body---------------------->", req.body);
+        const groupNamePattern = /^[A-Za-z]+(?:\s[A-Za-z]+)*$/;
+        groupName = groupName.trim().replace(/\s{2,}/g, " ").substring(0,30);
 
         if(!groupName){
             return res.json(error_res("GroupName is required!"));
         }
-        groupName = groupName.trim();
-        console.log("GroupName------------------------>", {groupName});
-        
+        if(groupName.length < 3){
+            return res.json(error_res("GroupName length should be 3 or greater than 3"));
+        }
+        if(!(groupNamePattern.test(groupName))){
+            return res.json(error_res("Please enter valid name"));
+        }
+        // name input: '       Shubham    Chuahan     '
+        // name output: 'Shubham Chuahan'
 
         const findGroup = await Group.findOne({ _id: groupId });
 
@@ -126,19 +133,15 @@ export const editGroup = async (req, res) => {
             return req.json(error_res("Group not found"));
         }
         if(findGroup.groupName != groupName){
-
             const validateGroup = await Group.findOne({ userId: user._id, groupName: groupName });
 
             if(validateGroup){
                 return res.json(error_res("Please enter unique value of groupname"));
             }
-
         }
 
         const updateGroup = await Group.findOneAndUpdate( { userId: user._id ,  _id: groupId }, {groupName: groupName}, { new: true } );
-            
         return res.json(success_res("Group has been updated!", updateGroup));
-        
 
     } catch (error) {
         return res.json(error_res(error));
